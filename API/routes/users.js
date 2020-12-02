@@ -6,7 +6,7 @@ app.get("/", function(req, res) {
     users.read(req, res);
 });
 
-app.get("/:usersid", function(req, res) {
+app.get("/:users_id", function(req, res) {
     users.readById(req, res);
 });
 

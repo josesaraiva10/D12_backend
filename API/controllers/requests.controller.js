@@ -19,4 +19,3 @@ function readById(req,res) {
         res.send(rows);
     });
 }
-
