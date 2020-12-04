@@ -10,6 +10,10 @@ app.get("/:requestsid", function(req, res) {
     requests.readById(req, res);
 });
 
+app.post("/", function(req,res) {
+    requests.save(req,res)
+});
+
 
 
 

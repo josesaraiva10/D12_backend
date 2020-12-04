@@ -1,7 +1,6 @@
 const app = require('../app.js');
 const connect = require('../Config/connection.js');
 
-
 function read(req,res) {
     connect.con.query('SELECT * from Users', (err, rows) => {
         if(err) throw err;
@@ -23,7 +22,7 @@ function readById(req,res) {
 
 function addRow(data) {
     let insertQuery = 'INSERT INTO Users (user_id, password, type) VALUES ("5", "works", "5")';
-    let query = mysql.format(insertQuery,["Users","user_id","password","type",data.user_id,data.password,data.type]);
+    let query = global.mysql.format(insertQuery,["Users","user_id","password","type",data.user_id,data.password,data.type]);
     connect.con.query(query,(err, response) => {
         if(err) {
             console.error(err);
@@ -38,7 +37,7 @@ function addRow(data) {
 
 function updateRow(data) {
     let updateQuery = "UPDATE Users SET password = 'e_joao' WHERE user_id = 1";
-    let query = mysql.format(updateQuery,["Users","password",data.password,"user_id",data.user_id]);
+    let query = global.mysql.format(updateQuery,["Users","password",data.password,"user_id",data.user_id]);
     connect.con.query(query,(err, response) => {
         if(err) {
             console.error(err);
@@ -53,7 +52,7 @@ function updateRow(data) {
 
 function queryRow(userName) {
     let selectQuery = 'SELECT password FROM Users WHERE user_id = 1';    
-    let query = mysql.format(selectQuery,["Users","user_id", userName]);
+    let query = global.mysql.format(selectQuery,["Users","user_id", userName]);
     connect.con.query(query,(err, data) => {
         if(err) {
             console.error(err);
@@ -66,7 +65,7 @@ function queryRow(userName) {
 
 function deleteRow(userName) {
     let deleteQuery = "DELETE from Users WHERE user_id = '3'";
-    let query = mysql.format(deleteQuery, ["Users", "user_id", userName]);
+    let query = global.mysql.format(deleteQuery, ["Users", "user_id", userName]);
     connect.con.query(query,(err, response) => {
         if(err) {
             console.error(err);
@@ -79,6 +78,9 @@ function deleteRow(userName) {
 
 module.exports = {
 read: read,
-readById :readById,
-readByName: readByName,
+readById: readById,
+addRow: addRow,
+updateRow: updateRow,
+queryRow: queryRow, 
+deleteRow: deleteRow
 };

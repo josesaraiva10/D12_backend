@@ -8,10 +8,16 @@ const connect = require('./Config/connection.js');
 const index = require('./routes/index');
 const users = require('./routes/users');
 const requests = require('./routes/requests');
+const auditors = require('./routes/auditors');
+const audits = require('./routes/audits');
+const inventory = require('./routes/inventory');
 
 app.use('/', index);
 app.use('/users', users);
 app.use('/requests',requests);
+app.use('/auditors',auditors);
+app.use('/audits',audits);
+app.use('/inventory',inventory);
 
 //Port Listen
 app.listen(port, () => {
