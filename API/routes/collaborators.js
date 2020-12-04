@@ -1,14 +1,9 @@
 const express = require("express");
-const app = express.Router();
+const router = express.Router();
 const collaborators = require('../controllers/collaborators.controller.js');
 
-app.get("/", function(req, res) {
-    collaborators.read(req, res);
-});
+router.get("/", collaborators.read);
 
-app.get("/:collaborators_id", function(req, res) {
-    collaborators.readById(req, res);
-});
+router.get("/:collaborators_id", collaborators.readById);
 
-
-module.exports = app;
+module.exports = router;

@@ -32,38 +32,97 @@ function addRow(data) {
     });
 }
 
-// na parte do name l. 38
-function updateRow(data) {
-    let updateQuery = "UPDATE Inventory SET material_type = ? and availability = ? WHERE material_id = ?";
-    let query = mysql.format(updateQuery,[data.material_type,data.availability, data.material_id]);
-    connect.con.query(query,(err, response) => {
-        if(err) {
-            console.error(err);
-            return;
+function update(req, res) {
+    //receber os dados do formuário que são enviados por post
+    const material_id = req.sanitize('material_id').escape();
+    const material_type = req.sanitize('material_type').escape();
+    const availability = req.sanitize('availability').escape();
+  
+        const iduser = req.sanitize('id').escape(); console.log("without hahsh:" + req.body.pass);
+        var query = "";
+        var update = {
+            material_id,
+            material_type,
+            availability,
+            
+        }; query = connect.con.query('INSERT INTO inventory SET material_id = ?, material_type = ?, availability = ?,  where material_id =?', update, function(err, rows,
+            fields) {
+            console.log(query.sql);
+            if (!err) {
+                console.log("Number of records updated: " + rows.affectedRows);
+                res.status(200).send({ "msg": "update with success" });
+            }
+            else {
+                res.status(400).send({ "msg": err.code });
+                console.log('Error while performing Query.', err);
+            }
+        });
+    }
+    
+
+function deleteID(req, res) {
+    //criar e executar a query de leitura na BD
+    const material_id = req.sanitize('material_id').escape();
+    const post = {
+        material_id: material_id
+    };
+    connect.con.query('DELETE from inventory where material_id = ?', post, function(err, rows, fields) {
+        if (!err) {
+            //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
+            if(rows.length == 0) {
+                res.status(404).send({
+                    "msg": "data not found"
+                });
+            }
+            else {
+                res.status(200).send({
+                    "msg": "success"
+                });
+            }
         }
-        // rows updated
-        console.log(response.affectedRows);
+        else
+            console.log('Error while performing Query.', err);
     });
 }
 
-//na parte do audit l.65
-function deleteRow(material_id) {
-    let deleteQuery = "DELETE from Inventory WHERE material_id = ?";
-    let query = mysql.format(deleteQuery, ["Inventory", "material_id", material_id]);
-    connect.con.query(query,(err, response) => {
-        if(err) {
-            console.error(err);
-            return;
+function save(req, res) {
+    //receber os dados do formuário que são enviados por post
+    const material_id = req.sanitize('material_id').escape();
+    const material_type = req.sanitize('material_type').escape();
+    const availability = req.sanitize('availability').escape();
+    
+    var query = "";
+    var post = {
+        material_id: material_id,
+        material_type: material_type,
+        availability: availability,
+      
+    };
+    query = connect.con.query('INSERT INTO inventory SET ?', post, function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).location(rows.insertId).send({
+                "msg": "inserted with success"
+            });
+            console.log("Number of records inserted: " + rows.affectedRows);
         }
-        // rows deleted
-        console.log(response.affectedRows);
+        else {
+            if (err.code == "ER_DUP_ENTRY") {
+                res.status(409).send({ "msg": err.code });
+                console.log('Error while performing Query.', err);
+            }
+            else res.status(400).send({ "msg": err.code });
+        }
     });
 }
+
+
 
 module.exports = {
 read: read,
-readById :readById,
+readById: readById,
 addRow: addRow,
-updateRow: updateRow,
-deleteRow: deleteRow
+update: update,
+deleteID: deleteID,
+save: save
 };

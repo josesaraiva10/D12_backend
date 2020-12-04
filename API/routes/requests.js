@@ -1,20 +1,12 @@
 const express = require("express");
-const app = express.Router();
+const router = express.Router();
 const requests = require('../controllers/requests.controller.js');
 
-app.get("/", function(req, res) {
-    requests.read(req, res);
-});
 
-app.get("/:requestsid", function(req, res) {
-    requests.readById(req, res);
-});
+router.get('/', requests.read);
+router('/:id', requests.readID);
+router.post("/", requests.save);
+router.put('/users/:id', router.update);
+router.delete('/users/:id', router.deleteID);
 
-app.post("/", function(req,res) {
-    requests.save(req,res)
-});
-
-
-
-
-module.exports = app;
+module.exports = router;

@@ -21,53 +21,91 @@ function readById(req,res) {
 }
 
 
-function addRow(data) {
-    let insertQuery = 'INSERT INTO Audits (audit_id, evaluation, description) VALUES ()';
-    let query = mysql.format(insertQuery,["Audits"]);
-    connect.con.query(query,(err, response) => {
-        if(err) {
-            console.error(err);
-            return;
+//função de gravação que recebe os 3 parâmetros   audit_id // evaluation // description //
+function save(req, res) {
+    //receber os dados do formuário que são enviados por post
+    const audit_id = req.sanitize('audit_id').escape();
+    const evaluation = req.sanitize('evaluation').escape();
+    const description = req.sanitize('description').escape();
+    var query = "";
+    var post = {
+        audit_id: audit_id,
+        evaluation: evaluation,
+        description: description,
+    };
+    query = connect.con.query('INSERT INTO audits SET ?', post, function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).location(rows.insertId).send({
+                "msg": "inserted with success"
+            });
+            console.log("Number of records inserted: " + rows.affectedRows);
         }
-        // rows added
-        console.log(response.insertId);
+        else {
+            if (err.code == "ER_DUP_ENTRY") {
+                res.status(409).send({ "msg": err.code });
+                console.log('Error while performing Query.', err);
+            }
+            else res.status(400).send({ "msg": err.code });
+        }
     });
 }
 
-// update rows
-
-function updateRow(data) {
-    let updateQuery = "UPDATE Audits SET name = 'e_joao' WHERE audit_id = 1";
-    let query = mysql.format(updateQuery,["Audits","name",data.name,"audit_id",data.audit_id]);
-    connect.con.query(query,(err, response) => {
-        if(err) {
-            console.error(err);
-            return;
+//efetuar updade de todos os dados para um determinado audit_id
+function update(req, res) {
+    //receber os dados do formuário que são enviados por post
+    const audit_id = req.sanitize('audit_id').escape();
+    const evaluation = req.sanitize('evaluation').escape();
+    const description = req.sanitize('description').escape();
+    console.log("without hahsh:" + req.body.pass);
+    var query = "";
+    var update = {
+        audit_id,
+        evaluation,
+        description
+    };
+    query = connect.con.query('INSERT INTO audits SET audit_id = ?, evaluation =?, description=? where audit_id=?', update, function(err, rows,
+        fields) {
+        console.log(query.sql);
+        if (!err) {
+            console.log("Number of records updated: " + rows.affectedRows);
+            res.status(200).send({ "msg": "update with success" });
         }
-        // rows updated
-        console.log(response.affectedRows);
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
     });
 }
 
-// query rows in the table
-
-function deleteRow(userName) {
-    let deleteQuery = "DELETE from Audits WHERE user_id = '3'";
-    let query = mysql.format(deleteQuery, ["Audits", "audit_id", audit]);
-    connect.con.query(query,(err, response) => {
-        if(err) {
-            console.error(err);
-            return;
+//função que apaga todos os dados de um audit_id
+function deleteID(req, res) {
+    //criar e executar a query de leitura na BD
+    const audit_id = req.sanitize('audit_id').escape();
+    const post = {
+        audit_id: audit_id
+    };
+    connect.con.query('DELETE from audits where audit_id = ?', post, function(err, rows, fields) {
+        if (!err) {
+            //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
+            if(rows.length == 0) {
+                res.status(404).send({
+                    "msg": "data not found"
+                });
+            }
+            else {
+                res.status(200).send({
+                    "msg": "success"
+                });
+            }
         }
-        // rows deleted
-        console.log(response.affectedRows);
+        else
+            console.log('Error while performing Query.', err);
     });
 }
 
 module.exports = {
-read: read,
-readById :readById,
-addRow: addRow,
-updateRow: updateRow,
-deleteRow: deleteRow
+    read: read,
+    readById: readById,
+    save: save
 };

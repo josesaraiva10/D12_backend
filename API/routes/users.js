@@ -1,17 +1,8 @@
 const express = require("express");
-const app = express.Router();
+const router = require('express').Router();
 const users = require('../controllers/users.controller.js');
 
-app.get("/", function(req, res) {
-    users.read(req, res);
-});
+router.get('/', users.read);
+router.get('/:id', users.readID);
 
-app.get("/:users_id", function(req, res) {
-    users.readById(req, res);
-});
-
-
-
-
-
-module.exports = app;
+module.exports = router;

@@ -1,14 +1,9 @@
 const express = require("express");
-const app = express.Router();
+const router = express.Router();
 const audits = require('../controllers/audits.controller.js');
 
-app.get("/", function(req, res) {
-    audits.read(req, res);
-});
+router.get("/", audits.read);
 
-app.get("/:audits_id", function(req, res) {
-    audits.readById(req, res);
-});
+router.get("/:audits_id", audits.readById);
 
-
-module.exports = app;
+module.exports = router;
