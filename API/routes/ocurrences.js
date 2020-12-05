@@ -1,14 +1,10 @@
 const express = require("express");
-const app = express.Router();
+const router = express.Router();
 const ocurrences = require('../controllers/ocurrences.controller.js');
 
-app.get("/", function(req, res) {
-    ocurrences.read(req, res);
-});
+router.get("/", ocurrences.read);
 
-app.get("/:ocurrence_id", function(req, res) {
-    ocurrences.readById(req, res);
-});
+router.get("/:ocurrence_id", ocurrences.readById);
 
-
-module.exports = app;
+router.post("/", ocurrences.sa)
+module.exports = router;

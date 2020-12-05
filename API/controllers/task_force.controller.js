@@ -4,7 +4,7 @@ const connect = require('../Config/connection.js');
 function read(req, res) {
     connect.con.query('SELECT * from Task_Force', (err, rows) => {
         if (err) throw err;
-        console.log('The data from requests table are: \n', rows)
+        console.log('The data from Task Force table are: \n', rows)
         res.send(rows);
     });
 }

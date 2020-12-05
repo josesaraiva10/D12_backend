@@ -21,6 +21,41 @@ function readById(req,res) {
     });
 }
 
+// building...
+function save(req, res) {
+    //receber os dados do formuário que são enviados por post
+    const occurence_id = req.sanitize('occurence_id').escape();
+    const name = req.sanitize('name').escape();
+    const birth_date = req.sanitize('birth_date').escape();
+    const cc_auditor = req.sanitize('cc_auditor').escape();
+    const phone_number = req.sanitize('phone_number').escape();
+    const address = req.sanitize('address').escape();
+    var query = "";
+    var post = {
+        name: name,
+        birth_date: birth_date,
+        cc_auditor: cc_auditor,
+        phone_number: phone_number,
+        address: address
+    };
+    query = connect.con.query('INSERT INTO auditors SET ?', post, function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).location(rows.insertId).send({
+                "msg": "inserted with success"
+            });
+            console.log("Number of records inserted: " + rows.affectedRows);
+        }
+        else {
+            if (err.code == "ER_DUP_ENTRY") {
+                res.status(409).send({ "msg": err.code });
+                console.log('Error while performing Query.', err);
+            }
+            else res.status(400).send({ "msg": err.code });
+        }
+    });
+}
+//building...
 
 function addRow(data) {
     let insertQuery = 'INSERT INTO Ocurrences (ocurrence_id, start_date, end_date, status, local, evaluation, access_code, fk_Occ_manager_id, fk_Occ_team_id) VALUES ("5", "works", "5")';

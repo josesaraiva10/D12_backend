@@ -1,18 +1,18 @@
 const app = require('./app.js');
 const router = require('./routes/mainroutes.js');
 
-//Routes
-const index = require('./routes/index');
-const users = require('./routes/users');
-const requests = require('./routes/requests');
-const auditors = require('./routes/auditors');
-const audits = require('./routes/audits');
-const inventory = require('./routes/inventory');
-const collaborators = require('./routes/collaborators');
-const ocurrences = require('./routes/ocurrences');
-const operations_managers = require('./routes/operations_managers');
-const task_force = require('./routes/task_force');
-const testimonials = require('./routes/testimonials');
+
+const index = require('./routes/index.js');
+const users = require('./routes/users.js');
+const requests = require('./routes/requests.js');
+const auditors = require('./routes/auditors.js');
+const audits = require('./routes/audits.js');
+const inventory = require('./routes/inventory.js');
+const collaborators = require('./routes/collaborators.js');
+const ocurrences = require('./routes/ocurrences.js');
+const operations_managers = require('./routes/operations_managers.js');
+const task_force = require('./routes/task_force.js');
+const testimonials = require('./routes/testimonials.js');
 
 
 app.use('/', index);
