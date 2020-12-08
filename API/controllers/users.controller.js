@@ -20,67 +20,98 @@ function readById(req,res) {
 }
 
 
-function addRow(data) {
-    let insertQuery = 'INSERT INTO Users (user_id, password, type) VALUES ("5", "works", "5")';
-    let query = global.mysql.format(insertQuery,["Users","user_id","password","type",data.user_id,data.password,data.type]);
-    connect.con.query(query,(err, response) => {
-        if(err) {
-            console.error(err);
-            return;
+function save(req, res) {
+    //receber os dados do formuário que são enviados por post
+
+    const password = req.sanitize('password').escape();
+    const type = req.sanitize('type').escape();
+    
+
+    var query = "";
+
+    var post = {
+        password: password,
+        type: type,
+    };
+
+    query = connect.con.query('INSERT INTO Users SET ?', post, function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).location(rows.insertId).send({
+                "msg": "inserted with success"
+            });
+            console.log("Number of records inserted: " + rows.affectedRows);
         }
-        // rows added
-        console.log(response.insertId);
+        else {
+            if (err.code == "ER_DUP_ENTRY") {
+                res.status(409).send({ "msg": err.code });
+                console.log('Error while performing Query.', err);
+            }
+            else res.status(400).send({ "msg": err.code });
+        }
     });
 }
 
-// update rows
 
-function updateRow(data) {
-    let updateQuery = "UPDATE Users SET password = 'e_joao' WHERE user_id = 1";
-    let query = global.mysql.format(updateQuery,["Users","password",data.password,"user_id",data.user_id]);
-    connect.con.query(query,(err, response) => {
-        if(err) {
-            console.error(err);
-            return;
+function update(req, res) {
+    //receber os dados do formuário que são enviados por post
+    const password = req.sanitize('password').escape();
+    const type = req.sanitize('type').escape();
+    const user_id = req.sanitize('user_id')
+    console.log("without hahsh:" + req.body.pass);
+
+    var query = "";
+    var update = {
+        password,
+        type,
+        user_id
+    };
+    query = connect.con.query('INSERT INTO Users SET password = ?, type = ?, where user_id = ?', update, function(err, rows,
+        fields) {
+        console.log(query.sql);
+        if (!err) {
+            console.log("Number of records updated: " + rows.affectedRows);
+            res.status(200).send({ "msg": "update with success" });
         }
-        // rows updated
-        console.log(response.affectedRows);
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
     });
 }
 
-// query rows in the table
 
-function queryRow(userName) {
-    let selectQuery = 'SELECT password FROM Users WHERE user_id = 1';    
-    let query = global.mysql.format(selectQuery,["Users","user_id", userName]);
-    connect.con.query(query,(err, data) => {
-        if(err) {
-            console.error(err);
-            return;
+//função que apaga todos os dados de um iduser
+function deleteID(req, res) {
+    //criar e executar a query de leitura na BD
+    const user_id = req.sanitize('request_id').escape();
+    const post = {
+        user_id: user_id
+    };
+    connect.con.query('DELETE from Users where user_id = ?', post, function(err, rows, fields) {
+        if (!err) {
+            //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
+            if (rows.length == 0) {
+                res.status(404).send({
+                    "msg": "data not found"
+                });
+            }
+            else {
+                res.status(200).send({
+                    "msg": "success"
+                });
+            }
         }
-        // rows fetch
-        console.log(data);
+        else
+            console.log('Error while performing Query.', err);
     });
 }
 
-function deleteRow(userName) {
-    let deleteQuery = "DELETE from Users WHERE user_id = '3'";
-    let query = global.mysql.format(deleteQuery, ["Users", "user_id", userName]);
-    connect.con.query(query,(err, response) => {
-        if(err) {
-            console.error(err);
-            return;
-        }
-        // rows deleted
-        console.log(response.affectedRows);
-    });
-}
 
 module.exports = {
-read: read,
-readById: readById,
-addRow: addRow,
-updateRow: updateRow,
-queryRow: queryRow, 
-deleteRow: deleteRow
-};
+        read: read,
+        readById: readById,
+        save: save,
+        update: update,
+        deleteID: deleteID
+    };

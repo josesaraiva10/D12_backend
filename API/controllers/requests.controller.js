@@ -12,7 +12,7 @@ function read(req, res) {
 
 function readById(req, res) {
     let request_id = req.params.id;
-    let mainQuery = 'SELECT * from Requests where user_id = ?';
+    let mainQuery = 'SELECT * from Requests where request_id = ?';
     connect.con.query(mainQuery, [request_id], (err, rows) => {
         if (err) throw err;
         console.log('The request with the the id is: \n', rows)
