@@ -4,6 +4,6 @@ const testimonials = require('../controllers/testimonials.controller.js');
 
 router.get("/", testimonials.read);
 
-router.get("/:testimonial_id", testimonials.readById);
+router.get('/:testimonial_id', testimonials.readById);
 
 module.exports = router;

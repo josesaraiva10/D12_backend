@@ -1,44 +1,58 @@
-
 const app = require('../app.js');
 const connect = require('../Config/connection.js');
 
+//_________________________________________________________READ______________________________________________________________________
 
-function read(req,res) {
+function read(req, res) {
     connect.con.query('SELECT * from Ocurrences', (err, rows) => {
-        if(err) throw err;
+        if (err) throw err;
         console.log('The data from ocurrences table are: \n', rows)
         res.send(rows);
     });
 }
 
-function readById(req,res) {
+//_________________________________________________________READ BY ID______________________________________________________________________
+
+function readById(req, res) {
     let ocurrence_id = req.params.id;
     let mainQuery = 'SELECT * from Ocurrences where ocurrence_id = ?';
     connect.con.query(mainQuery, [ocurrence_id], (err, rows) => {
-        if(err) throw err;
+        if (err) throw err;
         console.log('The ocurrence with the id is: \n', rows)
         res.send(rows);
     });
 }
 
-// building...
+//_________________________________________________________SAVE______________________________________________________________________
+
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
-    const occurence_id = req.sanitize('occurence_id').escape();
-    const name = req.sanitize('name').escape();
-    const birth_date = req.sanitize('birth_date').escape();
-    const cc_auditor = req.sanitize('cc_auditor').escape();
-    const phone_number = req.sanitize('phone_number').escape();
-    const address = req.sanitize('address').escape();
+    const ocurrence_id = req.sanitize('ocurrence_id').escape();
+    const request_id = req.sanitize('request_id').escape();
+    const team_id = req.sanitize('team_id').escape();
+    const manager_id = req.sanitize('manager_id').escape();
+    const start_date = req.sanitize('start_dater').escape();
+    const end_date = req.sanitize('end_date').escape();
+    const local = req.sanitize('local').escape();
+    const access_cod = req.sanitize('access_cod').escape();
+    const status = req.sanitize('status').escape();
+    const evaluation = req.sanitize('evaluation').escape();
+
     var query = "";
     var post = {
-        name: name,
-        birth_date: birth_date,
-        cc_auditor: cc_auditor,
-        phone_number: phone_number,
-        address: address
+        ocurrence_id: ocurrence_id,
+        request_id: request_id,
+        team_id: team_id,
+        manager_id,
+        start_date: start_date,
+        end_date: end_date,
+        local: local,
+        access_cod: access_cod,
+        status: status,
+        evaluation: evaluation
     };
-    query = connect.con.query('INSERT INTO auditors SET ?', post, function(err, rows, fields) {
+
+    query = connect.con.query('INSERT INTO Ocurrences SET ?', post, function(err, rows, fields) {
         console.log(query.sql);
         if (!err) {
             res.status(200).location(rows.insertId).send({
@@ -55,73 +69,80 @@ function save(req, res) {
         }
     });
 }
-//building...
 
-function addRow(data) {
-    let insertQuery = 'INSERT INTO Ocurrences (ocurrence_id, start_date, end_date, status, local, evaluation, access_code, fk_Occ_manager_id, fk_Occ_team_id) VALUES ("5", "works", "5")';
-    let query = global.mysql.format(insertQuery,["Ocurrences","ocurrence_id","start_date","end_date","status", "local", "evaluation", "access_code", "fk_Occ_manager_id", "fk_Occ_team_id",data.ocurrence_id,data.start_date,data.end_date, data.status, data.local, data.evaluation, data.access_code, data.fk_Occ_manager_id, data.fk_Occ_team_id]);
-    connect.con.query(query,(err, response) => {
-        if(err) {
-            console.error(err);
-            return;
+//_________________________________________________________UPDATE__________________________________________________________________
+
+function update(req, res) {
+    //receber os dados do formuário que são enviados por post
+    const request_id = req.sanitize('request_id').escape();
+    const team_id = req.sanitize('team_id').escape();
+    const manager_id = req.sanitize('manager_id').escape();
+    const start_date = req.sanitize('start_date').escape();
+    const end_date = req.sanitize('end_date').escape();
+    const local = req.sanitize('local').escape();
+    const access_cod = req.sanitize('access_cod').escape();
+    const status = req.sanitize('status').escape();
+    const evaluation = req.sanitize('evaluation').escape();
+    console.log("without hahsh:" + req.body.pass);
+
+    var query = "";
+    var update = {
+        request_id,
+        team_id,
+        manager_id,
+        start_date,
+        end_date,
+        local,
+        access_cod,
+        status,
+        evaluation
+    };
+    query = connect.con.query('INSERT INTO Ocurrences SET request_id = ?, team_id = ?, manager_id = ?, start_date = ?, end_date = ?, local = ?, access_cod = ?, status = ?, evaluation = ?, where request_id = ?', update, function(err, rows,
+        fields) {
+        console.log(query.sql);
+        if (!err) {
+            console.log("Number of records updated: " + rows.affectedRows);
+            res.status(200).send({ "msg": "update with success" });
         }
-        // rows added
-        console.log(response.insertId);
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
     });
 }
 
-// update rows
+//_________________________________________________________DELETEID__________________________________________________________________
 
-function updateRow(data) {
-    let updateQuery = "UPDATE Ocurrences SET        !password =        !'e_joao' WHERE ocurrence_id =         !1";
-    let query = global.mysql.format(updateQuery,["Ocurrences","        !password",data.password,"ocurrence_id",data.ocurrence_id]);
-    // query = UPDATE `todo` SET `notes`='Hello' WHERE `name`='shahid'
-    connect.con.query(query,(err, response) => {
-        if(err) {
-            console.error(err);
-            return;
+function deleteID(req, res) {
+    //criar e executar a query de leitura na BD
+    const occurrence_id = req.sanitize('occurrence_id').escape();
+    const post = {
+        occurrence_id: occurrence_id
+    };
+    connect.con.query('DELETE from Ocurrences where occurrence_id = ?', post, function(err, rows, fields) {
+        if (!err) {
+            //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
+            if (rows.length == 0) {
+                res.status(404).send({
+                    "msg": "data not found"
+                });
+            }
+            else {
+                res.status(200).send({
+                    "msg": "success"
+                });
+            }
         }
-        // rows updated
-        console.log(response.affectedRows);
+        else
+            console.log('Error while performing Query.', err);
     });
 }
 
-// query rows in the table
-
-function queryRow(userName) {
-    let selectQuery = 'SELECT password FROM Users WHERE ocurrence_id =      !1';    
-    let query = global.mysql.format(selectQuery,["Ocurrences","ocurrence_id",      !userName]);
-    // query = SELECT * FROM `todo` where `user` = 'shahid'
-    connect.con.query(query,(err, data) => {
-        if(err) {
-            console.error(err);
-            return;
-        }
-        // rows fetch
-        console.log(data);
-    });
-}
-
-function deleteRow(userName) {
-    let deleteQuery = "DELETE from Ocurrences WHERE ocurrence_id =      !'3'";
-    let query = global.mysql.format(deleteQuery, ["Ocurrences", "ocurrence_id",        !userName]);
-    // query = DELETE from `todo` where `user`='shahid';
-    connect.con.query(query,(err, response) => {
-        if(err) {
-            console.error(err);
-            return;
-        }
-        // rows deleted
-        console.log(response.affectedRows);
-    });
-}
 
 module.exports = {
-read: read,
-readById: readById,
-addRow: addRow,
-updateRow: updateRow,
-queryRow: queryRow, 
-deleteRow: deleteRow
+    read: read,
+    readById: readById,
+    save: save,
+    update: update,
+    deleteID: deleteID,
 };
-

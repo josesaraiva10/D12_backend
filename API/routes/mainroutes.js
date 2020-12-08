@@ -11,3 +11,5 @@ const operations_managers = require('../controllers/operations_managers.controll
 const users = require('../controllers/users.controller.js');
 const task_force = require('../controllers/task_force.controller.js');
 const testimonials = require('../controllers/testimonials.controller.js');
+
+module.exports = router;

@@ -19,19 +19,6 @@ function readById(req,res) {
     });
 } 
 
-function addRow(data) {
-    let insertQuery = 'INSERT INTO Inventory (material_id, material_type, availability) VALUES ()';
-    let query = global.mysql.format(insertQuery,["Inventory","material_id","material_type","availability"]);
-    connect.con.query(query,(err, response) => {
-        if(err) {
-            console.error(err);
-            return;
-        }
-        // rows added
-        console.log(response.insertId);
-    });
-}
-
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
     const material_id = req.sanitize('material_id').escape();
@@ -121,7 +108,6 @@ function save(req, res) {
 module.exports = {
 read: read,
 readById: readById,
-addRow: addRow,
 update: update,
 deleteID: deleteID,
 save: save

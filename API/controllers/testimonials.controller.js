@@ -18,3 +18,8 @@ function readById(req, res) {
         res.send(rows);
     });
 }
+
+module.exports = {
+read: read,
+readById: readById
+};

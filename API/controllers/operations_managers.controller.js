@@ -127,5 +127,5 @@ read: read,
 readById: readById,
 save: save,
 update: update,
-deleteID: deleteID,
+deleteID: deleteID
 };
