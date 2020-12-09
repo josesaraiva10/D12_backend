@@ -4,9 +4,9 @@ const connect = require('../Config/connection.js');
 //_________________________________________________________READ______________________________________________________________________
 
 function read(req, res) {
-    connect.con.query('SELECT * from Ocurrences', (err, rows) => {
+    connect.con.query('SELECT * from Occurrences', (err, rows) => {
         if (err) throw err;
-        console.log('The data from ocurrences table are: \n', rows)
+        console.log('The data from occurrences table are: \n', rows);
         res.send(rows);
     });
 }
@@ -15,10 +15,10 @@ function read(req, res) {
 
 function readById(req, res) {
     let ocurrence_id = req.params.id;
-    let mainQuery = 'SELECT * from Ocurrences where ocurrence_id = ?';
+    let mainQuery = 'SELECT * from Occurrences where ocurrence_id = ?';
     connect.con.query(mainQuery, [ocurrence_id], (err, rows) => {
         if (err) throw err;
-        console.log('The ocurrence with the id is: \n', rows)
+        console.log('The occurrence with the id is: \n', rows);
         res.send(rows);
     });
 }
@@ -27,36 +27,36 @@ function readById(req, res) {
 
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
-    const ocurrence_id = req.sanitize('ocurrence_id').escape();
+    const occurrence_id = req.sanitize('occurrence_id').escape();
     const request_id = req.sanitize('request_id').escape();
     const team_id = req.sanitize('team_id').escape();
     const manager_id = req.sanitize('manager_id').escape();
-    const start_date = req.sanitize('start_dater').escape();
+    const start_date = req.sanitize('start_date').escape();
     const end_date = req.sanitize('end_date').escape();
     const local = req.sanitize('local').escape();
-    const access_cod = req.sanitize('access_cod').escape();
+    const access_code = req.sanitize('access_code').escape();
     const status = req.sanitize('status').escape();
     const evaluation = req.sanitize('evaluation').escape();
 
     var query = "";
     var post = {
-        ocurrence_id: ocurrence_id,
+        occurrence_id: occurrence_id,
         request_id: request_id,
         team_id: team_id,
         manager_id,
         start_date: start_date,
         end_date: end_date,
         local: local,
-        access_cod: access_cod,
+        access_code: access_code,
         status: status,
         evaluation: evaluation
     };
 
-    query = connect.con.query('INSERT INTO Ocurrences SET ?', post, function(err, rows, fields) {
+    query = connect.con.query('INSERT INTO Occurrences SET ?', post, function(err, rows, fields) {
         console.log(query.sql);
         if (!err) {
             res.status(200).location(rows.insertId).send({
-                "msg": "inserted with success"
+                "Message": "Data inserted with success on Occurences"
             });
             console.log("Number of records inserted: " + rows.affectedRows);
         }
@@ -74,6 +74,7 @@ function save(req, res) {
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
+    const occurrence_id = req.sanitize('occurrence_id').escape();
     const request_id = req.sanitize('request_id').escape();
     const team_id = req.sanitize('team_id').escape();
     const manager_id = req.sanitize('manager_id').escape();
@@ -87,6 +88,7 @@ function update(req, res) {
 
     var query = "";
     var update = {
+        occurrence_id,
         request_id,
         team_id,
         manager_id,
@@ -97,7 +99,7 @@ function update(req, res) {
         status,
         evaluation
     };
-    query = connect.con.query('INSERT INTO Ocurrences SET request_id = ?, team_id = ?, manager_id = ?, start_date = ?, end_date = ?, local = ?, access_cod = ?, status = ?, evaluation = ?, where request_id = ?', update, function(err, rows,
+    query = connect.con.query('INSERT INTO Occurrences SET request_id = ?, team_id = ?, manager_id = ?, start_date = ?, end_date = ?, local = ?, access_code = ?, status = ?, evaluation = ?, where request_id = ?', update, function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
@@ -119,7 +121,7 @@ function deleteID(req, res) {
     const post = {
         occurrence_id: occurrence_id
     };
-    connect.con.query('DELETE from Ocurrences where occurrence_id = ?', post, function(err, rows, fields) {
+    connect.con.query('DELETE from Occurrences where occurrence_id = ?', post, function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
             if (rows.length == 0) {

@@ -4,7 +4,7 @@ const connect = require('../Config/connection.js');
 function read(req,res) {
     connect.con.query('SELECT * from Users', (err, rows) => {
         if(err) throw err;
-        console.log('The data from users table are: \n', rows)
+        console.log('The data from users table are: \n', rows);
         res.send(rows);
     });
 }
@@ -14,7 +14,7 @@ function readById(req,res) {
     let mainQuery = 'SELECT * from Users where user_id = ?';
     connect.con.query(mainQuery, [userID], (err, rows) => {
         if(err) throw err;
-        console.log('The user with the the id is: \n', rows)
+        console.log('The user with the the id is: \n', rows);
         res.send(rows);
     });
 }
@@ -57,7 +57,7 @@ function update(req, res) {
     //receber os dados do formuário que são enviados por post
     const password = req.sanitize('password').escape();
     const type = req.sanitize('type').escape();
-    const user_id = req.sanitize('user_id')
+    const user_id = req.sanitize('user_id').escape();
     console.log("without hahsh:" + req.body.pass);
 
     var query = "";

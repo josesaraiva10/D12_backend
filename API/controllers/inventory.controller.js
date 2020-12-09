@@ -4,7 +4,7 @@ const connect = require('../Config/connection.js');
 function read(req,res) {
     connect.con.query('SELECT * from Inventory', (err, rows) => {
         if(err) throw err;
-        console.log('The data from inventory table are: \n', rows)
+        console.log('The data from inventory table are: \n', rows);
         res.send(rows);
     });
 }
@@ -14,7 +14,7 @@ function readById(req,res) {
     let mainQuery = 'SELECT * from Inventory where material_id = ?';
     connect.con.query(mainQuery, [material_id], (err, rows) => {
         if(err) throw err;
-        console.log('The ocurrence with the id is: \n', rows)
+        console.log('The ocurrence with the id is: \n', rows);
         res.send(rows);
     });
 } 
@@ -24,15 +24,14 @@ function update(req, res) {
     const material_id = req.sanitize('material_id').escape();
     const material_type = req.sanitize('material_type').escape();
     const availability = req.sanitize('availability').escape();
-  
-        const iduser = req.sanitize('id').escape(); console.log("without hahsh:" + req.body.pass);
+    console.log("without hahsh:" + req.body.pass);
         var query = "";
         var update = {
             material_id,
             material_type,
             availability,
             
-        }; query = connect.con.query('INSERT INTO inventory SET material_id = ?, material_type = ?, availability = ?,  where material_id =?', update, function(err, rows,
+        }; query = connect.con.query('INSERT INTO Inventory SET material_id = ?, material_type = ?, availability = ?  where material_id = ?', update, function(err, rows,
             fields) {
             console.log(query.sql);
             if (!err) {
@@ -53,7 +52,7 @@ function deleteID(req, res) {
     const post = {
         material_id: material_id
     };
-    connect.con.query('DELETE from inventory where material_id = ?', post, function(err, rows, fields) {
+    connect.con.query('DELETE from Inventory where material_id = ?', post, function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
             if(rows.length == 0) {
@@ -85,7 +84,7 @@ function save(req, res) {
         availability: availability,
       
     };
-    query = connect.con.query('INSERT INTO inventory SET ?', post, function(err, rows, fields) {
+    query = connect.con.query('INSERT INTO Inventory SET ?', post, function(err, rows, fields) {
         console.log(query.sql);
         if (!err) {
             res.status(200).location(rows.insertId).send({

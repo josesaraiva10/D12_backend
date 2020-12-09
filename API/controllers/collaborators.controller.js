@@ -5,7 +5,7 @@ const connect = require('../Config/connection.js');
 function read(req,res) {
     connect.con.query('SELECT * from Collaborators', (err, rows) => {
         if(err) throw err;
-        console.log('The data from Collaborators table are: \n', rows)
+        console.log('The data from Collaborators table are: \n', rows);
         res.send(rows);
     });
 }
@@ -15,7 +15,7 @@ function readById(req,res) {
     let mainQuery = 'SELECT * from Collaborators where collaborator_id = ?';
     connect.con.query(mainQuery, [collaborators_id], (err, rows) => {
         if(err) throw err;
-        console.log('The collaborator with the id is: \n', rows)
+        console.log('The collaborator with the id is: \n', rows);
         res.send(rows);
     });
 }

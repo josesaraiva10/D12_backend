@@ -5,11 +5,10 @@ const port = process.env.port || 8080;
 const connect = require('./Config/connection.js');
 
 
-app.listen(port, function (err) {
-    if (!err) {
-    console.log('Your app is listening on ' + ' port ' + port);
-    } 
-    else {console.log(err);}
+
+//Port Listen
+app.listen(port, () => {
+    console.log('Server is running at port '+port);
 });
 
 module.exports = app;

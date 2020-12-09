@@ -4,7 +4,7 @@ const connect = require('../Config/connection.js');
 function read(req,res) {
     connect.con.query('SELECT * from Operations_Managers', (err, rows) => {
         if(err) throw err;
-        console.log('The data from Operations Managers table are: \n', rows)
+        console.log('The data from Operations Managers table are: \n', rows);
         res.send(rows);
     });
 }
@@ -14,7 +14,7 @@ function readById(req,res) {
     let mainQuery = 'SELECT * from Operations_Managers where manager_id = ?';
     connect.con.query(mainQuery, [manager_id], (err, rows) => {
         if(err) throw err;
-        console.log('The operation manager with the the id is: \n', rows)
+        console.log('The operation manager with the the id is: \n', rows);
         res.send(rows);
     });
 }
