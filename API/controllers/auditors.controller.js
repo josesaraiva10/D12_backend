@@ -24,12 +24,12 @@ function read(req, res) {
 
 function readById(req, res) {
     //criar e executar a query de leitura na BD
-    const auditor_id = req.sanitize('auditor_id').escape();
+    const auditor_id2 = req.params('auditor_id').escape();
     const post = {
-        auditor_id: auditor_id
+        auditor_id: auditor_id2
     };
     
-    connect.con.query('SELECT * from Auditors where auditor_id = ?', post, function(err, rows, fields) {
+    connect.con.query('SELECT * from Auditors where auditor_id = '+auditor_id2, post, function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
             if(rows.length == 0) {
@@ -56,8 +56,7 @@ function readById(req, res) {
 
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
-    const auditor_id = req.sanitize('auditor_id').escape();
-    const name = req.sanitize('name').escape();
+    const name2 = req.sanitize('name').escape();
     const birth_date = req.sanitize('birth_date').escape();
     const cc_auditor = req.sanitize('cc_auditor').escape();
     const phone_number = req.sanitize('phone_number').escape();
@@ -66,8 +65,7 @@ function save(req, res) {
     
     var query = "";
     var post = {
-        auditor_id: auditor_id,
-        name: name,
+        name: name2,
         birth_date: birth_date,
         cc_auditor: cc_auditor,
         phone_number: phone_number,
@@ -97,25 +95,24 @@ function save(req, res) {
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    const auditor_id = req.sanitize('auditor_id').escape();
-    const name = req.sanitize('name').escape();
-    const birth_date = req.sanitize('birth_date').escape();
-    const cc_auditor = req.sanitize('cc_auditor ').escape();
-    const phone_number = req.sanitize('phone_number ').escape();
-    const address = req.sanitize('address ').escape();
+    const auditor_id2 = req.params.auditor_id;
+    const name2 = req.body.name;
+    const birth_date2 = req.body.birth_date;
+    const cc_auditor2 = req.body.cc_auditor;
+    const phone_number2 = req.body.phone_number;
+    const address2 = req.body.address;
     console.log("without hahsh:" + req.body.pass);
     
     var query = "";                                                             
     var update = {
-        auditor_id,
-        name,
-        birth_date,
-        cc_auditor,
-        phone_number,
-        address
+        name2,
+        birth_date2,
+        cc_auditor2,
+        phone_number2,
+        address2
     };
 
-    query = connect.con.query('INSERT INTO Auditors SET name = ?, birth_date = ?, cc_auditor = ?, phone_number = ?, address = ? where auditor_id = ?', update, function(err, rows, fields) {
+    query = connect.con.query('UPDATE Auditors SET name = '+name2+', birth_date = '+birth_date2+', cc_auditor = '+cc_auditor2+', phone_number =' +phone_number2+', address = '+address2+' where auditor_id = '+auditor_id2, update, function(err, rows, fields) {
         console.log(query.sql);
         if (!err) {
             console.log("Number of records updated: " + rows.affectedRows);
@@ -132,9 +129,9 @@ function update(req, res) {
 
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    const auditor_id = req.sanitize('auditor_id').escape();
+    const auditor_id2 = req.params('auditor_id').escape();
     const post = {
-        auditor_id: auditor_id
+        auditor_id: auditor_id2
     };
 
     connect.con.query('DELETE from Auditors where auditor_id = ?', post, function(err, rows, fields) {
@@ -142,7 +139,7 @@ function deleteID(req, res) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
             if (rows.length == 0) {
                 res.status(404).send({
-                    "msg": "data not found"
+                    "msg": "data not found" 
                 });
             }
             else {

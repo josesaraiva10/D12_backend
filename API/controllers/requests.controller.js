@@ -30,6 +30,9 @@ function save(req, res) {
     const place = req.sanitize('place').escape();
     const urgency = req.sanitize('urgency').escape();
     const status = req.sanitize('status').escape();
+    const type = req.sanitize('type').escape();
+    const filed = req.sanitize('filed').escape();
+    
 
 
     var query = "";
@@ -41,6 +44,8 @@ function save(req, res) {
         place: place,
         urgency: urgency,
         status: status,
+        type: type,
+        filed: filed
     };
 
     query = connect.con.query('INSERT INTO Requests SET ?', post, function(err, rows, fields) {
@@ -81,7 +86,7 @@ function update(req, res) {
         status,
         request_id
     };
-    query = connect.con.query('INSERT INTO Requests SET address = ?, description = ?, place = ?, urgency = ?, status = ?, where request_id = ?', update, function(err, rows,
+    query = connect.con.query('UPDATE Requests SET address = ?, description = ?, place = ?, urgency = ?, status = ?, where request_id = ?', update, function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {

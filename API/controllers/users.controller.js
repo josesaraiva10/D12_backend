@@ -26,7 +26,6 @@ function save(req, res) {
     const password = req.sanitize('password').escape();
     const type = req.sanitize('type').escape();
     
-
     var query = "";
 
     var post = {
@@ -55,18 +54,17 @@ function save(req, res) {
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    const password = req.sanitize('password').escape();
-    const type = req.sanitize('type').escape();
-    const user_id = req.sanitize('user_id').escape();
+    const password2 = req.body.password;
+    const type2 = req.body.type;
+    const user_id = req.params.user_id;
     console.log("without hahsh:" + req.body.pass);
 
     var query = "";
-    var update = {
-        password,
-        type,
-        user_id
+    var update2 = {
+        password2,
+        type2
     };
-    query = connect.con.query('INSERT INTO Users SET password = ?, type = ?, where user_id = ?', update, function(err, rows,
+    query = connect.con.query('Update Users SET password='+ password2+',  type = '+ type2+' where user_id = '+ user_id,  function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
@@ -84,11 +82,11 @@ function update(req, res) {
 //função que apaga todos os dados de um iduser
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    const user_id = req.sanitize('request_id').escape();
-    const post = {
+    const user_id = req.params.id;
+    const delete2 = {
         user_id: user_id
     };
-    connect.con.query('DELETE from Users where user_id = ?', post, function(err, rows, fields) {
+    connect.con.query('DELETE from Users where user_id = ?', delete2, function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
             if (rows.length == 0) {

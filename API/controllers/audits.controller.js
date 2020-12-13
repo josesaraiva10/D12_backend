@@ -24,7 +24,7 @@ function read(req, res) {
 
 function readById(req, res) {
     //criar e executar a query de leitura na BD
-    const audit_id = req.sanitize('audit_id').escape();
+    const audit_id = req.params('audit_id').escape();
     const post = {
         audit_id: audit_id
     };
@@ -103,7 +103,7 @@ function update(req, res) {
         evaluation,
         description
     };
-    query = connect.con.query('INSERT INTO Audits SET evaluation = ?, description = ? where audit_id = ?', update, function(err, rows,
+    query = connect.con.query('UPDATE Audits SET evaluation = ?, description = ? where audit_id = ?', update, function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
