@@ -13,3 +13,4 @@ app.listen(port, () => {
 
 module.exports = app;
 require('./loader.js');
+require("./routes/auditors.js");

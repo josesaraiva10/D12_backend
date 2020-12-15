@@ -134,7 +134,7 @@ function deleteID(req, res) {
         auditor_id: auditor_id2
     };
 
-    connect.con.query('DELETE from Auditors where auditor_id = ?', post, function(err, rows, fields) {
+    connect.con.query('DELETE from Auditors where auditor_id = ?', [auditor_id2], function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
             if (rows.length == 0) {

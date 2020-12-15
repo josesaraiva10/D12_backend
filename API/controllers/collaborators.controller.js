@@ -24,13 +24,13 @@ function readById(req,res) {
 //função de gravação que recebe os 7 parâmetros   collaborator_id // name // birth_date // gender // nif // phone_number // address
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
-    const collaborator_id = req.sanitize('manager_id').escape();
-    const name = req.sanitize('name').escape();
-    const birth_date = req.sanitize('birth_date').escape();
-    const gender = req.sanitize('gender').escape();
-    const nif = req.sanitize('nif').escape();
-    const phone_number = req.sanitize('phone_number').escape();
-    const address = req.sanitize('address').escape();
+    const collaborator_id = req.body('manager_id').escape();
+    const name = req.body('name').escape();
+    const birth_date = req.body('birth_date').escape();
+    const gender = req.body('gender').escape();
+    const nif = req.body('nif').escape();
+    const phone_number = req.body('phone_number').escape();
+    const address = req.body('address').escape();
     var query = "";
     var post = {
         collaborator_id: collaborator_id,
@@ -62,7 +62,7 @@ function save(req, res) {
 //efetuar updade de todos os dados para um determinado collaborator_id
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-     const collaborator_id = req.sanitize('manager_id').escape();
+    const collaborator_id = req.sanitize('manager_id').escape();
     const name = req.sanitize('name').escape();
     const birth_date = req.sanitize('birth_date').escape();
     const gender = req.sanitize('gender').escape();

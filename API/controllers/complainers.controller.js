@@ -1,7 +1,7 @@
 const app = require('../app.js');
 const connect = require('../Config/connection.js');
 
-
+//lê a tabela dos queixosos
 function read(req,res) {
     connect.con.query('SELECT * from Complainers', (err, rows) => {
         if(err) throw err;
@@ -10,12 +10,13 @@ function read(req,res) {
     });
 }
 
+//lê a informação sobre um queixoso pelo seu cc
 function readById(req,res) {
     let complainer_cc= req.params.id;
     let mainQuery = 'SELECT * from Complainers where complainer_cc = ?';
     connect.con.query(mainQuery, [complainer_cc], (err, rows) => {
         if(err) throw err;
-        console.log('The user with the the id is: \n', rows)
+        console.log('The complainer_cc with the the id is: \n', rows)
         res.send(rows);
     });
 }
@@ -31,6 +32,7 @@ function save(req, res) {
     const phone_number = req.sanitize('phone_number').escape();
     const address = req.sanitize('address').escape();
     const postal_code = req.sanitize('postal_code').escape();
+    const fk_Complainers_user_id = req.sanitize('fk_Complainers_user_id').escape();
     
     var query = "";
 
@@ -43,6 +45,7 @@ function save(req, res) {
         phone_number: phone_number,
         address: address,
         postal_code: postal_code,
+        fk_Complainers_user_id
     };
 
     query = connect.con.query('INSERT INTO Complainers SET ?', post, function(err, rows, fields) {
@@ -67,20 +70,20 @@ function save(req, res) {
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    const name = req.sanitize('name').escape();
-    const phone_number = req.sanitize('phone_number').escape();
-    const address = req.sanitize('address').escape();
-    const complainer_cc = req.sanitize('complainer_cc').escape();
+    const name2 = req.body.name;
+    const phone_number2 = req.body.phone_number;
+    const address2 = req.body.address;
+    const complainer_cc = req.params.complainer_cc;
     console.log("without hahsh:" + req.body.pass);
 
     var query = "";
     var update = {
-        name,
-        phone_number,
-        address,
+        name2,
+        phone_number2,
+        address2,
         complainer_cc
          };
-    query = connect.con.query('INSERT INTO Complainers SET name = ?, phone_number = ?, address = ?, where complainer_cc = ?', update, function(err, rows,
+    query = connect.con.query('UDATE Complainers SET name = '+name2+', phone_number = '+phone_number2+', address = '+address2+', where complainer_cc = '+complainer_cc, update, function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
@@ -97,11 +100,11 @@ function update(req, res) {
 
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    const complainer_cc = req.sanitize('complainer_cc').escape();
-    const post = {
+    const complainer_cc = req.params.complainer_cc;
+    const delete2 = {
         complainer_cc: complainer_cc
     };
-    connect.con.query('DELETE from Complainers where complainer_cc = ?', post, function(err, rows, fields) {
+    connect.con.query('DELETE from Complainers where complainer_cc = ?', delete2, function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
             if (rows.length == 0) {

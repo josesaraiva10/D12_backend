@@ -26,9 +26,8 @@ function save(req, res) {
     const cc_number = req.sanitize('cc_number').escape();
     const email= req.sanitize('email').escape();
     const description = req.sanitize('description').escape();
+    const fk_Test_occurrence_id = req.sanitize('fk_Test_occurrence_id').escape();
     
-
-
     var query = "";
 
     var post = {
@@ -36,6 +35,7 @@ function save(req, res) {
         cc_number: cc_number,
         email: email,
         description: description,
+        fk_Test_occurrence_id
         
     };
 

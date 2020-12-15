@@ -1,6 +1,7 @@
 const app = require('../app.js');
 const connect = require('../Config/connection.js');
 
+// lê toda a informação que está contida na tabela dos users
 function read(req,res) {
     connect.con.query('SELECT * from Users', (err, rows) => {
         if(err) throw err;
@@ -9,6 +10,7 @@ function read(req,res) {
     });
 }
 
+// lê informação de um user pelo seu id
 function readById(req,res) {
     let userID = req.params.id;
     let mainQuery = 'SELECT * from Users where user_id = ?';
@@ -19,7 +21,7 @@ function readById(req,res) {
     });
 }
 
-
+//guarda os valores existentes
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
 
@@ -52,6 +54,8 @@ function save(req, res) {
 }
 
 
+
+
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
     const password2 = req.body.password;
@@ -61,10 +65,11 @@ function update(req, res) {
 
     var query = "";
     var update2 = {
-        password2,
-        type2
+        user_id:user_id,
+        password2:password2,
+        type2:type2
     };
-    query = connect.con.query('Update Users SET password='+ password2+',  type = '+ type2+' where user_id = '+ user_id,  function(err, rows,
+    query = connect.con.query('UPDATE Users SET password= ?,  type =?  where user_id = ?',[password2,type2,user_id], function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
@@ -82,11 +87,11 @@ function update(req, res) {
 //função que apaga todos os dados de um iduser
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    const user_id = req.params.id;
+    const user_id = req.params.user_id;
     const delete2 = {
         user_id: user_id
     };
-    connect.con.query('DELETE from Users where user_id = ?', delete2, function(err, rows, fields) {
+    connect.con.query('DELETE from Users where user_id = ?', [user_id], function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
             if (rows.length == 0) {

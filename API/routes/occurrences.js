@@ -4,8 +4,8 @@ const occurences = require('../controllers/occurrences.controller.js');
 
 router.get("/", occurences.read);
 router.post("/", occurences.save);
-router.get("/:occurrence_id", occurences.readById);
-router.put('/:occurrence_id', occurences.update);
-router.delete('/:occurrence_id', occurences.deleteID);
+router.get("/:id", occurences.readById);
+router.put('/:id', occurences.update);
+router.delete('/:id', occurences.deleteID);
 
 module.exports = router;

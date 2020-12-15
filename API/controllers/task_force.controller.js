@@ -1,6 +1,7 @@
 const app = require('../app.js');
 const connect = require('../Config/connection.js');
 
+//lê as tabelas das equipas
 function read(req, res) {
     connect.con.query('SELECT * from Task_Force', (err, rows) => {
         if (err) throw err;
@@ -9,6 +10,7 @@ function read(req, res) {
     });
 }
 
+//lê os dados da equipa por um id
 function readById(req, res) {
     let task_force_id = req.params.id;
     let mainQuery = 'SELECT * from Task_Force where user_id = ?';

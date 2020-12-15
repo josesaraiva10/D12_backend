@@ -15,10 +15,10 @@ function read(req, res) {
 
 function readById(req, res) {
     let occurrence_id = req.params.id;
-    let mainQuery = 'SELECT * from Occurrences where ocurrence_id = ?';
+    let mainQuery = 'SELECT * from Occurrences where occurrence_id = ?';
     connect.con.query(mainQuery, [occurrence_id], (err, rows) => {
         if (err) throw err;
-        console.log('The occurrence with the id is: \n', rows);
+        console.log('The occurrence with the id: ' + occurrence_id + ' is: \n', rows);
         res.send(rows);
     });
 }
@@ -27,25 +27,28 @@ function readById(req, res) {
 
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
-    const team_id = req.sanitize('team_id').escape();
-    const manager_id = req.sanitize('manager_id').escape();
+    const occurrence_id = req.sanitize('occurrence_id').escape();
     const start_date = req.sanitize('start_date').escape();
     const end_date = req.sanitize('end_date').escape();
+    const status1 = req.sanitize('status').escape();
     const local = req.sanitize('local').escape();
-    const access_code = req.sanitize('access_code').escape();
-    const status = req.sanitize('status').escape();
     const evaluation = req.sanitize('evaluation').escape();
-
+    const access_code = req.sanitize('access_code').escape();
+    const fk_Occ_team_id = req.sanitize('fk_Occ_team_id').escape();
+    const fk_Occ_manager_id = req.sanitize('fk_Occ_manager_id').escape();
+    
+    
     var query = "";
     var post = {
-        team_id: team_id,
-        manager_id: manager_id,
+        occurrence_id: occurrence_id,
         start_date: start_date,
         end_date: end_date,
+        status1: status1,
         local: local,
+        evaluation: evaluation,
         access_code: access_code,
-        status: status,
-        evaluation: evaluation
+        fk_Occ_team_id,
+        fk_Occ_manager_id
     };
 
     query = connect.con.query('INSERT INTO Occurrences SET ?', post, function(err, rows, fields) {

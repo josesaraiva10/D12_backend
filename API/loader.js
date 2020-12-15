@@ -33,7 +33,7 @@ app.use(function(req, res, next) {
 });
 
 
-//loader calls all routes
+//loader calls all routes -- pode chmar apenas o mainroutes?
 
 const index = require('./routes/index.js');
 const requests = require('./routes/requests.js');
@@ -41,6 +41,7 @@ const users = require('./routes/users.js');
 const auditors = require('./routes/auditors.js');
 const audits = require('./routes/audits.js');
 const inventory = require('./routes/inventory.js');
+const complainers = require('./routes/complainers.js');
 const collaborators = require('./routes/collaborators.js');
 const occurrences = require('./routes/occurrences.js');
 const operation_managers = require('./routes/operation_managers.js');
@@ -58,6 +59,7 @@ app.use('/audits', audits);
 app.use('/inventory', inventory);
 app.use('/collaborators', collaborators);
 app.use('/occurrences', occurrences);
+app.use('/complainers', complainers);
 app.use('/operation_managers', operation_managers);
 app.use('/task_force', task_force);
 app.use('/testimonials', testimonials);

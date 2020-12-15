@@ -1,6 +1,7 @@
 const app = require('../app.js');
 const connect = require('../Config/connection.js');
 
+//lê o conteúdo da tabela dos gestores de operações
 function read(req,res) {
     connect.con.query('SELECT * from Operation_Managers', (err, rows) => {
         if(err) throw err;
@@ -9,6 +10,7 @@ function read(req,res) {
     });
 }
 
+//lê o conteúdo do gestor de operações por um id
 function readById(req,res) {
     let manager_id = req.params.id;
     let mainQuery = 'SELECT * from Operation_Managers where manager_id = ?';
