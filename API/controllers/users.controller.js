@@ -69,7 +69,7 @@ function update(req, res) {
         password2:password2,
         type2:type2
     };
-    query = connect.con.query('UPDATE Users SET password= ?,  type =?  where user_id = ?',[password2,type2,user_id], function(err, rows,
+    query = connect.con.query('UPDATE Users SET password= ?,  type =?  where user_id = ?',[update2], function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {

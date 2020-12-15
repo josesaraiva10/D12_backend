@@ -27,7 +27,6 @@ function readById(req, res) {
 
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
-    const occurrence_id = req.sanitize('occurrence_id').escape();
     const start_date = req.sanitize('start_date').escape();
     const end_date = req.sanitize('end_date').escape();
     const status1 = req.sanitize('status').escape();
@@ -40,15 +39,14 @@ function save(req, res) {
     
     var query = "";
     var post = {
-        occurrence_id: occurrence_id,
         start_date: start_date,
         end_date: end_date,
         status1: status1,
         local: local,
         evaluation: evaluation,
         access_code: access_code,
-        fk_Occ_team_id,
-        fk_Occ_manager_id
+        fk_Occ_manager_id: fk_Occ_manager_id,
+        fk_Occ_team_id: fk_Occ_team_id,
     };
 
     query = connect.con.query('INSERT INTO Occurrences SET ?', post, function(err, rows, fields) {
@@ -96,8 +94,7 @@ function update(req, res) {
         evaluation2
     };
     
-    query = connect.con.query('Update Occurrences SET manager_id = '+manager_id+', team_id = '+team_id+', start_date = '+start_date2+', end_date= '+end_date2+', local= '+local2+', access_code= '+access_code2+', status1= '+status2+', evaluation= '+evaluation2+', where occurrence_id = '+ occurrence_id, update,  function(err, rows,
-        fields) {
+    query = connect.con.query('Update Occurrences SET fk_Occ_manager_id = ?, fk_Occ_team_id = ?, start_date = ?, end_date= ?, local= ?, access_code= ?, status1= ?, evaluation= ?, where occurrence_id = ', update, function(err, rows,fields) {
         console.log(query.sql);
         if (!err) {
             console.log("Number of records updated: " + rows.affectedRows);
@@ -115,10 +112,10 @@ function update(req, res) {
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
     const occurrence_id = req.params.occurrence_id;
-    const post = {
+    const delete2 = {
         occurrence_id: occurrence_id
     };
-    connect.con.query('DELETE from Occurrences where occurrence_id = ?', post, function(err, rows, fields) {
+    connect.con.query('DELETE from Occurrences where occurrence_id = ?', [delete2], function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
             if (rows.length == 0) {

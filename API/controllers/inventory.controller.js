@@ -102,12 +102,12 @@ function save(req, res) {
     });
 }
 
-function readByOcurrenceId(req,res) {
+function readByOccurrenceId(req,res) {
     let material_id = req.params.id;
     let mainQuery = 'SELECT Inventory.* from Inventory INNER JOIN Inventory_of_the_Occurrence on Inventory_of_the_Occurrence.fk_IO_material_id = Inventory.material_id where Inventory_of_the_Occurrence.fk_IO_occurrence_id = ?;';
     connect.con.query(mainQuery, [material_id], (err, rows) => {
         if(err) throw err;
-        console.log('The inventory of the occurence with the id is: \n', rows);
+        console.log('The inventory of the occurrence with the id is: \n', rows);
         res.send(rows);
     });
 }
@@ -119,5 +119,5 @@ readById: readById,
 update: update,
 deleteID: deleteID,
 save: save,
-readByOcurrenceId: readByOcurrenceId
+readByOccurrenceId: readByOccurrenceId
 };

@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const occurences = require('../controllers/occurrences.controller.js');
+const occurrences = require('../controllers/occurrences.controller.js');
 
-router.get("/", occurences.read);
-router.post("/", occurences.save);
-router.get("/:id", occurences.readById);
-router.put('/:id', occurences.update);
-router.delete('/:id', occurences.deleteID);
+router.get("/", occurrences.read);
+router.get("/:id", occurrences.readById);
+router.post("/", occurrences.save);
+router.put('/:occurrence_id', occurrences.update);
+router.delete('/:occurrence_id', occurrences.deleteID);
 
 module.exports = router;

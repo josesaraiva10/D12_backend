@@ -5,8 +5,8 @@ const complainers = require('../controllers/complainers.controller.js');
 router.get('/', complainers.read);
 router.get('/:id', complainers.readById);
 router.post("/", complainers.save);
-router.put('/:id', complainers.update);
-router.delete('/:id', complainers.deleteID);
+router.put('/:complainers_cc', complainers.update);
+router.delete('/:complainers_cc', complainers.deleteID);
 
 
 module.exports = router;
