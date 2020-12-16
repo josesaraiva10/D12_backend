@@ -26,6 +26,7 @@ function save(req, res) {
     //receber os dados do formuário que são enviados por post
 
     const date = req.sanitize('date').escape();
+    const time = req.sanitize('time').escape();
     const address = req.sanitize('address').escape();
     const description = req.sanitize('description').escape();
     const place = req.sanitize('place').escape();
@@ -45,6 +46,7 @@ function save(req, res) {
 
     var post = {
         date: date,
+        time: time,
         address: address,
         description: description,
         place: place,
@@ -88,6 +90,7 @@ function update(req, res) {
     const locality2 = req.body.locality;
     const entity2 = req.body.entity2;
     const status2 = req.body.status;
+    const filed2 = req.body.filed;
     const fk_Requests_collaborator_id2 = req.body.fk_Requests_collaborator_id; 
     const fk_Requests_complainer_cc2 = req.body.fk_Requests_complainer_cc;
     const request_id = req.params.request_id;
@@ -102,11 +105,13 @@ function update(req, res) {
         locality2,
         entity2,
         status2,
+        filed2,
         fk_Requests_collaborator_id2,
         fk_Requests_complainer_cc2,
         request_id
     };
-    query = connect.con.query('UPDATE Requests SET address = '+address2+', description = '+description2+', place = '+place2+', urgency = '+urgency2+', locality = '+locality2+', entity = '+entity2+', status = '+status2+', fk_Requests_collaborator_id = '+fk_Requests_collaborator_id2+', fk_Requests_complainer_cc = '+fk_Requests_complainer_cc2+' , where request_id = '+ request_id, update, function(err, rows,
+    query = connect.con.query('UPDATE Requests SET address = ? , description = ?, place = ?, urgency = ?, locality = ?, entity = ?, status = ?, filed= ?, fk_Requests_collaborator_id = ?, fk_Requests_complainer_cc = ?, where request_id = ?',[address2,description2,place2,urgency2,locality2,entity2,status2,filed2,fk_Requests_collaborator_id2,fk_Requests_complainer_cc2,request_id]
+    , function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
@@ -128,7 +133,7 @@ function deleteID(req, res) {
     const delete2 = {
         request_id: request_id
     };
-    connect.con.query('DELETE from Requests where request_id = ?', delete2, function(err, rows, fields) {
+    connect.con.query('DELETE from Requests where request_id = '+request_id , delete2, function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
             if (rows.length == 0) {

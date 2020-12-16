@@ -49,7 +49,7 @@ function save(req, res) {
         fk_Occ_team_id: fk_Occ_team_id,
     };
 
-    query = connect.con.query('INSERT INTO Occurrences SET ?', post, function(err, rows, fields) {
+    query = connect.con.query('INSERT INTO Occurrences SET ?', [post], function(err, rows, fields) {
         console.log(query.sql);
         if (!err) {
             res.status(200).location(rows.insertId).send({

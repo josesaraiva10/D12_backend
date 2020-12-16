@@ -83,7 +83,7 @@ function update(req, res) {
         address2,
         complainer_cc
          };
-    query = connect.con.query('UDATE Complainers SET name = '+name2+', phone_number = '+phone_number2+', address = '+address2+', where complainer_cc = '+complainer_cc, update, function(err, rows,
+    query = connect.con.query('UPDATE Complainers SET name = '+name2+', phone_number = '+phone_number2+', address = '+address2+', where complainer_cc = '+complainer_cc, update, function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {

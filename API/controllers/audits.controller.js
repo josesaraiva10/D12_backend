@@ -24,7 +24,7 @@ function read(req, res) {
 
 function readById(req, res) {
     //criar e executar a query de leitura na BD
-    const audit_id = req.params('audit_id').escape();
+    const audit_id = req.params.audit_id;
     const post = {
         audit_id: audit_id
     };
@@ -93,18 +93,14 @@ function save(req, res) {
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    const audit_id = req.sanitize('audit_id').escape();
-    const evaluation = req.sanitize('evaluation').escape();
-    const description = req.sanitize('description').escape();
+    const audit_id2 = req.params.audit_id;
+    const evaluation2 = req.body.evaluation;
+    const description2 = req.body.description;
     console.log("without hahsh:" + req.body.pass);
+    
     var query = "";
-    var update = {
-        audit_id,
-        evaluation,
-        description
-    };
-    query = connect.con.query('UPDATE Audits SET evaluation = ?, description = ? where audit_id = ?', update, function(err, rows,
-        fields) {
+    
+    query = connect.con.query('UPDATE Audits SET evaluation = '+evaluation2+', description = '+description2+' where audit_id = '+audit_id2, function(err, rows, fields) {
         console.log(query.sql);
         if (!err) {
             console.log("Number of records updated: " + rows.affectedRows);
@@ -121,11 +117,9 @@ function update(req, res) {
 
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    const audit_id = req.sanitize('audit_id').escape();
-    const post = {
-        audit_id: audit_id
-    };
-    connect.con.query('DELETE from Audits where audit_id = ?', post, function(err, rows, fields) {
+    const audit_id2 = req.params.audit_id;
+
+    connect.con.query('DELETE from Audits where audit_id = '+audit_id2, function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
             if(rows.length == 0) {

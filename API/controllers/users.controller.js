@@ -69,7 +69,7 @@ function update(req, res) {
         password2:password2,
         type2:type2
     };
-    query = connect.con.query('UPDATE Users SET password= ?,  type =?  where user_id = ?',[update2], function(err, rows,
+    query = connect.con.query('UPDATE Users SET password= ?,  type =?  where user_id = ?',[password2,type2,user_id], function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
@@ -91,7 +91,7 @@ function deleteID(req, res) {
     const delete2 = {
         user_id: user_id
     };
-    connect.con.query('DELETE from Users where user_id = ?', [user_id], function(err, rows, fields) {
+    connect.con.query('DELETE from Users where user_id = '+user_id, delete2,function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
             if (rows.length == 0) {

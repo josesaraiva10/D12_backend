@@ -31,7 +31,8 @@ function save(req, res) {
     const email = req.sanitize('email').escape();
     const distance_from_scene = req.sanitize('distance_from_scene').escape();
     const availability = req.sanitize('availability').escape();
-   
+    const fk_OM_user_id = req.sanitize('fk_OM_user_id').escape();
+    
     var query = "";
     var post = {
         birth_date: birth_date,
@@ -40,6 +41,7 @@ function save(req, res) {
         email: email,
         distance_from_scene: distance_from_scene,
         availability: availability,
+        fk_OM_user_id: fk_OM_user_id
     };
     query = connect.con.query('INSERT INTO Operation_Managers SET ?', post, function(err, rows, fields) {
         console.log(query.sql);
@@ -62,25 +64,26 @@ function save(req, res) {
 //efetuar updade de todos os dados para um determinado manager_id
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    const manager_id = req.sanitize('manager_id').escape();
-    const birth_date = req.sanitize('birth_date').escape();
-    const rating = req.sanitize('rating').escape();
-    const phone_number = req.sanitize('phone_number').escape();
-    const email = req.sanitize('email').escape();
-    const distance_from_scene = req.sanitize('distance_from_scene').escape();
-    const availability = req.sanitize('availability').escape();
+    const birth_date2 = req.body.birth_date;
+    const rating2 = req.body.rating;
+    const phone_number2 = req.body.phone_number;
+    const email2 = req.body.email;
+    const distance_from_scene2 = req.body.distance_from_scene;
+    const availability2 = req.body.availability;
+    const manager_id = req.params.manager_id;
+
     console.log("without hahsh:" + req.body.pass);
     var query = "";
     var update = {
-        manager_id,
-        birth_date,
-        rating,
-        phone_number,
-        email,
-        distance_from_scene,
-        availability,
+        birth_date2,
+        rating2,
+        phone_number2,
+        email2,
+        distance_from_scene2,
+        availability2,
+        manager_id
     };
-    query = connect.con.query('INSERT INTO Operation_managers SET manager_id = ?, birth_date =?, rating=?, phone_number =?, email =?, distance_from_scene =?, availability =?, where manager_id=?', update, function(err, rows,
+    query = connect.con.query ('UPDATE Operation_managers SET  birth_date = '+birth_date2+', rating= '+rating2+', phone_number = '+phone_number2+', email = '+email2+', distance_from_scene = '+distance_from_scene2+', availability = '+availability2+', where manager_id='+manager_id, update, function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
@@ -98,7 +101,7 @@ function update(req, res) {
 //função que apaga todos os dados de um manager_id
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    const manager_id = req.sanitize('manager_id').escape();
+    const manager_id = req.params.manager_id;
     const post = {
         manager_id: manager_id,
     };

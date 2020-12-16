@@ -24,28 +24,13 @@ function read(req, res) {
 
 function readById(req, res) {
     //criar e executar a query de leitura na BD
-    const auditor_id2 = req.params('auditor_id').escape();
-    const post = {
-        auditor_id: auditor_id2
-    };
+    const auditor_id2 = req.params.id;
+    let mainQuery = 'SELECT * from Auditors where auditor_id = ?';
     
-    connect.con.query('SELECT * from Auditors where auditor_id = '+auditor_id2, post, function(err, rows, fields) {
-        if (!err) {
-            //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
-            if(rows.length == 0) {
-                res.status(404).send({
-                    "msg": "data not found"
-                });
-            }
-            else {
-                res.status(200).send(rows);
-            }
-        }
-        else
-            res.status(400).send({
-                "msg": err.code
-                });
-        console.log('Error while performing Query.', err);
+   connect.con.query(mainQuery, [auditor_id2], (err, rows) => {
+        if(err) throw err;
+        console.log('The auditor with the the id is: \n', rows);
+        res.send(rows);
     });
 }
 
@@ -56,21 +41,21 @@ function readById(req, res) {
 
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
-    const name2 = req.sanitize('name').escape();
+    const name = req.sanitize('name').escape();
     const birth_date = req.sanitize('birth_date').escape();
     const cc_auditor = req.sanitize('cc_auditor').escape();
     const phone_number = req.sanitize('phone_number').escape();
     const address = req.sanitize('address').escape();
-    const user_id = req.sanitize('fk_Auditors_user_id').escape();
+    const fk_Auditors_user_id = req.sanitize('fk_Auditors_user_id').escape();
     
     var query = "";
     var post = {
-        name: name2,
+        name: name,
         birth_date: birth_date,
         cc_auditor: cc_auditor,
         phone_number: phone_number,
         address: address,
-        fk_Auditors_user_id: user_id
+        fk_Auditors_user_id: fk_Auditors_user_id
     };
     
     query = connect.con.query('INSERT INTO Auditors SET ?', post, function(err, rows, fields) {
@@ -97,22 +82,14 @@ function update(req, res) {
     //receber os dados do formuário que são enviados por post
     const auditor_id2 = req.params.auditor_id;
     const name2 = req.body.name;
-    const birth_date2 = req.body.birth_date;
     const cc_auditor2 = req.body.cc_auditor;
     const phone_number2 = req.body.phone_number;
     const address2 = req.body.address;
     console.log("without hahsh:" + req.body.pass);
     
     var query = "";                                                             
-    var update = {
-        name2,
-        birth_date2,
-        cc_auditor2,
-        phone_number2,
-        address2
-    };
 
-    query = connect.con.query('UPDATE Auditors SET name = '+name2+', birth_date = '+birth_date2+', cc_auditor = '+cc_auditor2+', phone_number =' +phone_number2+', address = '+address2+' where auditor_id = '+auditor_id2, update, function(err, rows, fields) {
+    query = connect.con.query('UPDATE Auditors SET name = '+ name2+', cc_auditor = '+ cc_auditor2+', phone_number = '+phone_number2+', address = '+address2+' where auditor_id = '+auditor_id2, function(err, rows, fields) {
         console.log(query.sql);
         if (!err) {
             console.log("Number of records updated: " + rows.affectedRows);
@@ -129,12 +106,12 @@ function update(req, res) {
 
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    const auditor_id2 = req.params('auditor_id').escape();
+    const auditor_id = req.params.auditor_id;
     const post = {
-        auditor_id: auditor_id2
+        auditor_id: auditor_id
     };
 
-    connect.con.query('DELETE from Auditors where auditor_id = ?', [auditor_id2], function(err, rows, fields) {
+    connect.con.query('DELETE from Auditors where auditor_id = ',post, function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
             if (rows.length == 0) {

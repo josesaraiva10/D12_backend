@@ -21,6 +21,42 @@ function read(req, res) {
 }
 
 
+
+function save(req, res) {
+    //receber os dados do formuário que são enviados por post
+
+    const type = req.sanitize('type').escape();
+    const description = req.sanitize('description').escape();
+    
+    var query = "";
+
+    var post = {
+        description: description,
+        type: type,
+    };
+
+    query = connect.con.query('INSERT INTO Users SET ?', post, function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).location(rows.insertId).send({
+                "msg": "inserted with success"
+            });
+            console.log("Number of records inserted: " + rows.affectedRows);
+        }
+        else {
+            if (err.code == "ER_DUP_ENTRY") {
+                res.status(409).send({ "msg": err.code });
+                console.log('Error while performing Query.', err);
+            }
+            else res.status(400).send({ "msg": err.code });
+        }
+    });
+}
+
+
+
+
 module.exports = {
-    read: read
+    read: read,
+    save: save
 };

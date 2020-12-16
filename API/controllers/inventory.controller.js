@@ -21,18 +21,10 @@ function readById(req,res) {
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    const material_id = req.sanitize('material_id').escape();
-    const material_type = req.sanitize('material_type').escape();
-    const availability = req.sanitize('availability').escape();
-    console.log("without hahsh:" + req.body.pass);
-        var query = "";
-        var update = {
-            material_id,
-            material_type,
-            availability,
-            
-        }; query = connect.con.query('INSERT INTO Inventory SET material_id = ?, material_type = ?, availability = ?  where material_id = ?', update, function(err, rows,
-            fields) {
+    let material_id = req.params.id
+    var query = "";
+        
+    query = connect.con.query('UPDATE Inventory SET ? where material_id = ?', [req.body, material_id], function(err, rows, fields) {
             console.log(query.sql);
             if (!err) {
                 console.log("Number of records updated: " + rows.affectedRows);
@@ -48,11 +40,10 @@ function update(req, res) {
 
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    const material_id = req.sanitize('material_id').escape();
-    const post = {
-        material_id: material_id
-    };
-    connect.con.query('DELETE from Inventory where material_id = ?', post, function(err, rows, fields) {
+    let material_id = req.params.id
+    var query = "";
+    query = connect.con.query('DELETE from Inventory where material_id = ?', [material_id], function(err, rows, fields) {
+        console.log(query.sql);
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
             if(rows.length == 0) {
