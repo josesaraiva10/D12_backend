@@ -80,7 +80,7 @@ function update(req, res) {
         phone_number,
         address,
     };
-    query = connect.con.query('INSERT INTO collaborators SET collaborator_id = ?, name =?, birth_date =?, gender=?, nif =?, phone_number =?, address =?, where collaborator_id=?', update, function(err, rows,
+    query = connect.con.query('UPDATE Collaborators SET collaborator_id = ?, name =?, birth_date =?, gender=?, nif =?, phone_number =?, address =?, where collaborator_id=?', update, function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {

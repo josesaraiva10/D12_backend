@@ -15,7 +15,7 @@ function readById(req,res) {
     connect.con.query(mainQuery, [material_id], (err, rows) => {
         if(err) throw err;
         console.log('The ocurrence with the id is: \n', rows);
-        res.send(rows);
+        res.send(rows[0]); 
     });
 } 
 

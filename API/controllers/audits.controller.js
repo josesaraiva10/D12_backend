@@ -24,28 +24,13 @@ function read(req, res) {
 
 function readById(req, res) {
     //criar e executar a query de leitura na BD
-    const audit_id = req.params.audit_id;
-    const post = {
-        audit_id: audit_id
-    };
+    const audit_id2 = req.params.id;
+    let mainQuery = 'SELECT * from Audits where audit_id = ?';
     
-    connect.con.query('SELECT * from Audits where audit_id = ?', post, function(err, rows, fields) {
-        if (!err) {
-            //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
-            if(rows.length == 0) {
-                res.status(404).send({
-                    "msg": "data not found"
-                });
-            }
-            else {
-                res.status(200).send(rows);
-            }
-        }
-        else
-            res.status(400).send({
-                "msg": err.code
-                });
-        console.log('Error while performing Query.', err);
+   connect.con.query(mainQuery, [audit_id2], (err, rows) => {
+        if(err) throw err;
+        console.log('The audit with the the id is: \n', rows);
+        res.send(rows[0]);
     });
 }
 

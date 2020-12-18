@@ -110,7 +110,7 @@ function update(req, res) {
         fk_Requests_complainer_cc2,
         request_id
     };
-    query = connect.con.query('UPDATE Requests SET address = ? , description = ?, place = ?, urgency = ?, locality = ?, entity = ?, status = ?, filed= ?, fk_Requests_collaborator_id = ?, fk_Requests_complainer_cc = ?, where request_id = ?',[address2,description2,place2,urgency2,locality2,entity2,status2,filed2,fk_Requests_collaborator_id2,fk_Requests_complainer_cc2,request_id]
+    query = connect.con.query('UPDATE Requests SET address = '+address2+', description = '+description2+', place = '+place2+', urgency = '+urgency2+', locality = '+locality2+', entity = '+entity2+', status = '+status2+', filed= '+filed2+', fk_Requests_collaborator_id = '+fk_Requests_collaborator_id2+', fk_Requests_complainer_cc = '+fk_Requests_complainer_cc2+', where request_id = '+request_id, update
     , function(err, rows,
         fields) {
         console.log(query.sql);

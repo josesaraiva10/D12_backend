@@ -30,7 +30,7 @@ function readById(req, res) {
    connect.con.query(mainQuery, [auditor_id2], (err, rows) => {
         if(err) throw err;
         console.log('The auditor with the the id is: \n', rows);
-        res.send(rows);
+        res.send(rows[0]);
     });
 }
 
@@ -106,12 +106,9 @@ function update(req, res) {
 
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    const auditor_id = req.params.auditor_id;
-    const post = {
-        auditor_id: auditor_id
-    };
-
-    connect.con.query('DELETE from Auditors where auditor_id = ',post, function(err, rows, fields) {
+    const auditor_id2 = req.params.auditor_id;
+    
+    connect.con.query('DELETE from Auditors where auditor_id = '+auditor_id2, function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
             if (rows.length == 0) {
@@ -135,5 +132,5 @@ module.exports = {
     readById: readById,
     save: save,
     update: update,
-    deleteID: deleteID,
+    deleteID: deleteID
 };
