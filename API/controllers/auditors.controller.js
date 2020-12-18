@@ -24,7 +24,7 @@ function read(req, res) {
 
 function readById(req, res) {
     //criar e executar a query de leitura na BD
-    const auditor_id2 = req.params.id;
+    const auditor_id2 = req.params.auditor_id;
     let mainQuery = 'SELECT * from Auditors where auditor_id = ?';
     
    connect.con.query(mainQuery, [auditor_id2], (err, rows) => {

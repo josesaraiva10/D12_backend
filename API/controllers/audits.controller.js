@@ -24,12 +24,11 @@ function read(req, res) {
 
 function readById(req, res) {
     //criar e executar a query de leitura na BD
-    const audit_id2 = req.params.id;
+    const audit_id2 = req.params.audit_id;
     let mainQuery = 'SELECT * from Audits where audit_id = ?';
-    
    connect.con.query(mainQuery, [audit_id2], (err, rows) => {
         if(err) throw err;
-        console.log('The audit with the the id is: \n', rows);
+        console.log('The audit with the the id is: \n', rows)
         res.send(rows[0]);
     });
 }

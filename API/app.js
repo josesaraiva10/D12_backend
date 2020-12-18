@@ -4,7 +4,7 @@ const mysql = require('mysql');
 const port = process.env.PORT;
 const connect = require('./Config/connection.js');
 const cors = require('cors');
-
+const { body } = require('express-validator');
 //Port Listen
 app.listen(port, () => {
     console.log('Server is running at port '+port);
