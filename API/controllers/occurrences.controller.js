@@ -34,9 +34,10 @@ function save(req, res) {
     const local = req.sanitize('local').escape();
     const evaluation = req.sanitize('evaluation').escape();
     const access_code = req.sanitize('access_code').escape();
+    const services = req.sanitize('services').escape();
     const fk_Occ_team_id = req.sanitize('fk_Occ_team_id').escape();
     const fk_Occ_manager_id = req.sanitize('fk_Occ_manager_id').escape();
-    
+    const fk_Occ_request_id = req.sanitize('fk_Occ_request_id').escape();
     
     var query = "";
     var post = {
@@ -47,8 +48,10 @@ function save(req, res) {
         local : local,
         evaluation : evaluation,
         access_code : access_code,
+        services : services,
         fk_Occ_manager_id : fk_Occ_manager_id,
-        fk_Occ_team_id : fk_Occ_team_id
+        fk_Occ_team_id : fk_Occ_team_id,
+        fk_Occ_request_id : fk_Occ_request_id,
     };
 
     query = connect.con.query('INSERT INTO Occurrences SET ?', [post], function(err, rows, fields) {
