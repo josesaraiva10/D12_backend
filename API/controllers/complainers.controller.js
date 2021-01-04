@@ -10,16 +10,17 @@ function read(req,res) {
     });
 }
 
-//lê a informação sobre um queixoso pelo seu cc
-function readById(req,res) {
-    let complainer_cc= req.params.id;
-    let mainQuery = 'SELECT * from Complainers where complainer_cc = ?';
+function readById(req, res) {
+    let complainer_cc = req.params.complainer_cc;
+    let mainQuery = 'SELECT * from Complainers where complainer_id = ?';
     connect.con.query(mainQuery, [complainer_cc], (err, rows) => {
-        if(err) throw err;
-        console.log('The complainer_cc with the the id is: \n', rows)
+        if (err) throw err;
+        console.log('The complainer searched is: \n', rows)
         res.send(rows);
     });
 }
+
+
 
 function save(req, res) {
     //receber os dados do formuário que são enviados por post

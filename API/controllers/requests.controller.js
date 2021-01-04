@@ -126,6 +126,8 @@ function update(req, res) {
 }
 
 
+
+
 //função que apaga todos os dados de um iduser
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD

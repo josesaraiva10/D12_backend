@@ -27,7 +27,6 @@ function readById(req, res) {
 
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
-    const occurrence_id = req.sanitize('occurrence_id').escape();
     const start_date = req.sanitize('start_date').escape();
     const end_date = req.sanitize('end_date').escape();
     const status1 = req.sanitize('status').escape();
@@ -35,13 +34,15 @@ function save(req, res) {
     const evaluation = req.sanitize('evaluation').escape();
     const access_code = req.sanitize('access_code').escape();
     const services = req.sanitize('services').escape();
+    const status2 = req.sanitize('status2').escape();
     const fk_Occ_team_id = req.sanitize('fk_Occ_team_id').escape();
     const fk_Occ_manager_id = req.sanitize('fk_Occ_manager_id').escape();
     const fk_Occ_request_id = req.sanitize('fk_Occ_request_id').escape();
     
+    
     var query = "";
+    
     var post = {
-        occurrence_id : occurrence_id,
         start_date : start_date,
         end_date : end_date,
         status1 : status1,
@@ -49,9 +50,11 @@ function save(req, res) {
         evaluation : evaluation,
         access_code : access_code,
         services : services,
+        status2 : status2,
         fk_Occ_manager_id : fk_Occ_manager_id,
         fk_Occ_team_id : fk_Occ_team_id,
-        fk_Occ_request_id : fk_Occ_request_id,
+        fk_Occ_request_id : fk_Occ_request_id
+        
     };
 
     query = connect.con.query('INSERT INTO Occurrences SET ?', [post], function(err, rows, fields) {
@@ -96,10 +99,11 @@ function update(req, res) {
 
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    let occurrence_id = req.params.id;
-    var query = "";
-    query = connect.con.query('DELETE from Occurrences where occurrence_id = ?', [req.body, occurrence_id], function(err, rows, fields) {
-        console.log(query.sql);
+    const occurrence_id = req.params.occurrence_id;
+    const delete2 = {
+        occurrence_id : occurrence_id
+    };
+    connect.con.query('DELETE from Occurrences where occurrence_id = '+occurrence_id, delete2, function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
             if (rows.length == 0) {
@@ -118,6 +122,31 @@ function deleteID(req, res) {
     });
 }
 
+//_________________________________________________________LOGICALDELETE_______________________________________________________________
+
+function logicalDelete (req, res) {
+    //receber os dados do formuário que são enviados por post
+    const occurrence_id = req.params.occurrence_id;
+    const status = req.body.status2;
+    
+    var query = "";
+    
+    var put = {
+        status
+    }
+
+    query = connect.con.query('UPDATE Occurrences SET ? where occurrence_id = ?', [put, occurrence_id], function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).send("Occurence disabled with success!");
+        }
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
+    });
+}
+
 
 module.exports = {
     read: read,
@@ -125,4 +154,5 @@ module.exports = {
     save: save,
     update: update,
     deleteID: deleteID,
+    logicalDelete: logicalDelete,
 };
