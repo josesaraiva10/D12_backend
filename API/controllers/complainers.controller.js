@@ -12,7 +12,7 @@ function read(req,res) {
 
 function readById(req, res) {
     let complainer_cc = req.params.complainer_cc;
-    let mainQuery = 'SELECT * from Complainers where complainer_id = ?';
+    let mainQuery = 'SELECT * from Complainers where complainer_cc = ?';
     connect.con.query(mainQuery, [complainer_cc], (err, rows) => {
         if (err) throw err;
         console.log('The complainer searched is: \n', rows)

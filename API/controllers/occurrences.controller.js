@@ -99,14 +99,13 @@ function update(req, res) {
 
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    const occurrence_id = req.params.occurrence_id;
-    const delete2 = {
-        occurrence_id : occurrence_id
-    };
-    connect.con.query('DELETE from Occurrences where occurrence_id = '+occurrence_id, delete2, function(err, rows, fields) {
+    let occurrence_id = req.params.id;
+    var query = "";
+    query = connect.con.query('DELETE from Occurrences where occurrence_id = ?', [occurrence_id], function(err, rows, fields) {
+        console.log(query.sql);
         if (!err) {
-            //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
-            if (rows.length == 0) {
+            //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
+            if(rows.length == 0) {
                 res.status(404).send({
                     "msg": "data not found"
                 });
@@ -121,7 +120,6 @@ function deleteID(req, res) {
             console.log('Error while performing Query.', err);
     });
 }
-
 //_________________________________________________________LOGICALDELETE_______________________________________________________________
 
 function logicalDelete (req, res) {
