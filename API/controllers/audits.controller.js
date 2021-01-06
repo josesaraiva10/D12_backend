@@ -32,10 +32,10 @@ function readById(req, res) {
 
 // readByStatus - seleciona uma auditoria com o status 1
 function readByStatus(req, res) {
-    const audit_id = req.params.audit_id;
+    const status = req.params.status;
     let mainQuery = 'SELECT * from Audits where status = 1';
     
-    connect.con.query(mainQuery, [audit_id], (err, rows) => {
+    connect.con.query(mainQuery, [status], (err, rows) => {
         if(err) throw err;
         console.log('The audit you are looking for is: \n', rows)
         res.send(rows[0]);
