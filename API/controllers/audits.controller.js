@@ -30,6 +30,18 @@ function readById(req, res) {
     });
 }
 
+// readByStatus - seleciona uma auditoria com o status 1
+function readByStatus(req, res) {
+    const audit_id = req.params.audit_id;
+    let mainQuery = 'SELECT * from Audits where status = 1';
+    
+    connect.con.query(mainQuery, [audit_id], (err, rows) => {
+        if(err) throw err;
+        console.log('The audit you are looking for is: \n', rows)
+        res.send(rows[0]);
+    });
+}
+
 //    save - Insere uma auditoria na tabela Audits
 //    Recebe os 5 parâmetros - audit_id // evaluation // description // audior_id // occurrence_id
 function save(req, res) {
