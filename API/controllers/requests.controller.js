@@ -83,40 +83,38 @@ function save(req, res) {
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    const address2 = req.body.address;
-    const description2 = req.body.description;
-    const place2 = req.body.place;
-    const urgency2 = req.body.urgency;
-    const locality2 = req.body.locality;
-    const entity2 = req.body.entity2;
-    const status2 = req.body.status;
-    const filed2 = req.body.filed;
-    const fk_Requests_collaborator_id2 = req.body.fk_Requests_collaborator_id; 
-    const fk_Requests_complainer_cc2 = req.body.fk_Requests_complainer_cc;
-    const request_id = req.params.request_id;
-    console.log("without hahsh:" + req.body.pass);
+    const request_id = req.params.request_id;   
+    const address = req.body.address;
+    const description = req.body.description;
+    const place = req.body.place;
+    const urgency = req.body.urgency;
+    const locality = req.body.locality;
+    const entity = req.body.entity2;
+    const status = req.body.status;
+    const filed = req.body.filed;
+    const fk_Requests_collaborator_id = req.body.fk_Requests_collaborator_id; 
+    const fk_Requests_complainer_cc = req.body.fk_Requests_complainer_cc;
 
     var query = "";
-    var update = {
-        address2,
-        description2,
-        place2,
-        urgency2,
-        locality2,
-        entity2,
-        status2,
-        filed2,
-        fk_Requests_collaborator_id2,
-        fk_Requests_complainer_cc2,
-        request_id
-    };
-    query = connect.con.query('UPDATE Requests SET address = '+address2+', description = '+description2+', place = '+place2+', urgency = '+urgency2+', locality = '+locality2+', entity = '+entity2+', status = '+status2+', filed= '+filed2+', fk_Requests_collaborator_id = '+fk_Requests_collaborator_id2+', fk_Requests_complainer_cc = '+fk_Requests_complainer_cc2+', where request_id = '+request_id, update
-    , function(err, rows,
-        fields) {
+    
+    var put = {
+        address,
+        description,
+        place,
+        urgency,
+        locality,
+        entity,
+        status,
+        filed,
+        fk_Requests_collaborator_id,
+        fk_Requests_complainer_cc,
+    }
+    
+    query = connect.con.query('UPDATE Requests SET ? where request_id = ?', [put, request_id], function(err, rows, fields) {
         console.log(query.sql);
         if (!err) {
             console.log("Number of records updated: " + rows.affectedRows);
-            res.status(200).send({ "msg": "update with success" });
+            res.status(200).send("Request updated with success!!");
         }
         else {
             res.status(400).send({ "msg": err.code });
@@ -129,7 +127,7 @@ function update(req, res) {
 function logicalDelete (req, res) {
     //receber os dados do formuário que são enviados por post
     const request_id = req.params.request_id;
-    const status = req.body.status;;
+    const status = req.body.status1;
     
     var query = "";
     
