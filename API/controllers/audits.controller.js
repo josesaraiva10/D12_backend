@@ -33,7 +33,7 @@ function readById(req, res) {
 // readByStatus - seleciona uma auditoria com o status 1
 function readByStatus(req, res) {
     const status = req.params.status;
-    let mainQuery = 'SELECT * from Audits where status = ?';
+    let mainQuery = 'SELECT DISTINCT * from Audits where status = ?';
     
     connect.con.query(mainQuery, [status], (err, rows) => {
         if(err) throw err;
