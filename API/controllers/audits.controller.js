@@ -32,6 +32,7 @@ function readById(req, res) {
 
 // readByStatus - seleciona uma auditoria com o status 1
 function readByStatus(req, res) {
+    const status = req.params.status;
     let mainQuery = 'SELECT * from Audits where status = 1';
     
     connect.con.query(mainQuery, (err, rows) => {
@@ -136,6 +137,7 @@ function deleteID(req, res) {
 module.exports = {
     read: read,
     readById: readById,
+    readByStatus: readByStatus,
     save: save,
     update: update,
     deleteID: deleteID,

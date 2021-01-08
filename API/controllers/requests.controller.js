@@ -126,7 +126,28 @@ function update(req, res) {
 }
 
 
+function logicalDelete (req, res) {
+    //receber os dados do formuário que são enviados por post
+    const request_id = req.params.request_id;
+    const status = req.body.status;;
+    
+    var query = "";
+    
+    var put = {
+        status
+    }
 
+    query = connect.con.query('UPDATE Requests SET ? where request_id = ?', [put, request_id], function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).send("Request disabled with success!");
+        }
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
+    });
+}
 
 //função que apaga todos os dados de um iduser
 function deleteID(req, res) {
@@ -160,5 +181,6 @@ module.exports = {
         readById: readById,
         save: save,
         update: update,
+        logicalDelete: logicalDelete,
         deleteID: deleteID
     };
