@@ -110,7 +110,6 @@ function deleteID(req, res) {
     });
 }
 
-
 module.exports = {
         read: read,
         readById: readById,
