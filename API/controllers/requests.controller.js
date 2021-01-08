@@ -12,7 +12,7 @@ function read(req, res) {
 
 //lê a informação de um pedido por um id
 function readById(req, res) {
-    let request_id = req.params.id;
+    const request_id = req.params.request_id;
     let mainQuery = 'SELECT * from Requests where request_id = ?';
     connect.con.query(mainQuery, [request_id], (err, rows) => {
         if (err) throw err;
