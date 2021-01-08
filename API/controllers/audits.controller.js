@@ -38,7 +38,7 @@ function readByStatus(req, res) {
     connect.con.query(mainQuery, [status], (err, rows) => {
         if(err) throw err;
         console.log('The audit you are looking for is: \n', rows)
-        res.send(rows[0]);
+        res.send(rows);
     });
 }
 
