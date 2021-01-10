@@ -29,7 +29,7 @@ function save(req, res) {
     //receber os dados do formuário que são enviados por post
     const start_date = req.sanitize('start_date').escape();
     const end_date = req.sanitize('end_date').escape();
-    const status1 = req.sanitize('status').escape();
+    const status1 = req.sanitize('status1').escape();
     const local = req.sanitize('local').escape();
     const evaluation = req.sanitize('evaluation').escape();
     const access_code = req.sanitize('access_code').escape();
