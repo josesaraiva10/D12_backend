@@ -14,7 +14,7 @@ function read(req, res) {
 //_________________________________________________________READ BY ID______________________________________________________________________
 
 function readById(req, res) {
-    let occurrence_id = req.params.id;
+    let occurrence_id = req.params.occurrence_id;
     let mainQuery = 'SELECT * from Occurrences where occurrence_id = ?';
     connect.con.query(mainQuery, [occurrence_id], (err, rows) => {
         if (err) throw err;
