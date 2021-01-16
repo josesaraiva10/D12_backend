@@ -64,26 +64,32 @@ function save(req, res) {
 //efetuar updade de todos os dados para um determinado manager_id
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    const birth_date2 = req.body.birth_date;
-    const rating2 = req.body.rating;
-    const phone_number2 = req.body.phone_number;
-    const email2 = req.body.email;
-    const distance_from_scene2 = req.body.distance_from_scene;
-    const availability2 = req.body.availability;
     const manager_id = req.params.manager_id;
+    const birth_date = req.body.birth_date;
+    const rating = req.body.rating;
+    const phone_number = req.body.phone_number;
+    const email = req.body.email;
+    const distance_from_scene = req.body.distance_from_scene;
+    const availability = req.body.availability;
+    const fk_OM_user_id = req.body.fk_OM_user_id;
+    const status = req.body.status;
 
-    console.log("without hahsh:" + req.body.pass);
-    var query = "";
-    var update = {
-        birth_date2,
-        rating2,
-        phone_number2,
-        email2,
-        distance_from_scene2,
-        availability2,
-        manager_id
-    };
-    query = connect.con.query ('UPDATE Operation_managers SET  birth_date = '+birth_date2+', rating= '+rating2+', phone_number = '+phone_number2+', email = '+email2+', distance_from_scene = '+distance_from_scene2+', availability = '+availability2+', where manager_id='+manager_id, update, function(err, rows,
+    
+    var query = ""
+    
+    var put = {
+        birth_date,
+        rating,
+        phone_number,
+        email,
+        distance_from_scene,
+        availability,
+        fk_OM_user_id,
+        status
+        
+    }
+    
+    query = connect.con.query ('UPDATE Operation_managers SET ? where manager_id = ?', [put, manager_id], function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
@@ -97,6 +103,29 @@ function update(req, res) {
     });
 }
 
+
+function logicalDelete (req, res) {
+    //receber os dados do formuário que são enviados por post
+    const manager_id = req.params.manager_id;
+    const status = req.body.status;
+    
+    var query = "";
+    
+    var put = {
+        status
+    }
+
+    query = connect.con.query('UPDATE Operation_Managers SET ? where manager_id = ?', [put, manager_id] , function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).send("Request disabled with success!");
+        }
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
+    });
+}
 
 //função que apaga todos os dados de um manager_id
 function deleteID(req, res) {
@@ -131,5 +160,6 @@ read: read,
 readById: readById,
 save: save,
 update: update,
+logicalDelete: logicalDelete,
 deleteID: deleteID
 };

@@ -33,7 +33,7 @@ app.use(function(req, res, next) {
 });
 
 
-//loader calls all routes -- pode chmar apenas o mainroutes?
+//loader calls all routes
 
 const index = require('./routes/index.js');
 const requests = require('./routes/requests.js');

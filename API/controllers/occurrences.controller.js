@@ -79,10 +79,39 @@ function save(req, res) {
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    let occurrence_id = req.params.id;
-    var query = "";
+    const occurrence_id = req.params.occurence_id;
+    const start_date = req.body.start_date;
+    const end_date = req.body.end_date;
+    const status1 = req.body.status1;
+    const local = req.body.local;
+    const evaluation = req.body.evaluation;
+    const access_code = req.body.access_code;
+    const fk_Occ_manager_id = req.body.fk_Occ_manager_id;
+    const fk_Occ_team_id = req.body.fk_Occ_team_id;
+    const fk_Occ_request_id = req.body.fk_Occ_request_id;
+    const services = req.body.services;
+    const status2 = req.body.status2;
     
-    query = connect.con.query('Update Occurrences SET ? WHERE occurrence_id = ?', [req.body, occurrence_id], function(err, rows,fields) {
+    
+ var query = "";
+ 
+ var put = {
+     start_date,
+     end_date,
+     status1,
+     local,
+     evaluation,
+     access_code,
+     fk_Occ_manager_id,
+     fk_Occ_team_id,
+     fk_Occ_request_id,
+     services,
+     status2
+ } 
+ 
+
+ 
+    query = connect.con.query('Update Occurrences SET ? WHERE occurrence_id = ?', [put, occurrence_id], function(err, rows,fields) {
         console.log(query.sql);
         if (!err) {
             console.log("Number of records updated: " + rows.affectedRows);
@@ -99,27 +128,27 @@ function update(req, res) {
 
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    let occurrence_id = req.params.id;
-    var query = "";
-    query = connect.con.query('DELETE from Occurrences where occurrence_id = ?', [occurrence_id], function(err, rows, fields) {
-        console.log(query.sql);
-        if (!err) {
+    const occurrence_id = req.params.occurence_id;
+    
+    connect.con.query('DELETE from Occurrences where occurrence_id = ?', [occurrence_id], function(err, rows, fields) {
+       if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados(rows).
-            if(rows.length == 0) {
-                res.status(404).send({
-                    "msg": "data not found"
-                });
+            if (rows.length == 0) {
+                res.status(404).send(
+                    "Occurence not found"
+                );
             }
             else {
-                res.status(200).send({
-                    "msg": "success"
-                });
+                res.status(200).send(
+                    "Occurence deleted with success!"
+                );
             }
         }
         else
             console.log('Error while performing Query.', err);
     });
 }
+       
 //_________________________________________________________LOGICALDELETE_______________________________________________________________
 
 function logicalDelete (req, res) {

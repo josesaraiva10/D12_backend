@@ -21,6 +21,34 @@ function readById(req,res) {
     });
 }
 
+function login(req,res) {
+    const userID = req.sanitize('user_id').escape();
+    const password = req.sanitize('password').escape();
+    
+    var query = 'SELECT * from Users where user_id = ? and password = ?';
+    
+    connect.con.query(query, [userID, password], (err, rows) => {
+        if(err) throw err;
+        console.log('User found successfully logged in with the ID: ', userID);
+        
+        if(rows.length > 0) {
+            updateStatus();
+        }
+        
+        res.send(rows);
+        
+    });
+}
+
+function updateStatus() {
+    var query = 'UPDATE Users set status = on';
+    
+    connect.con.query(query, [], (err, rows) => {
+        if(err) throw err;
+        console.log('User is now on: ');
+    });
+}
+
 //guarda os valores existentes
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
@@ -58,18 +86,22 @@ function save(req, res) {
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    const password2 = req.body.password;
-    const type2 = req.body.type;
-    const user_id = req.params.user_id;
-    console.log("without hahsh:" + req.body.pass);
+   const user_id = req.params.user_id;
+   const password= req.body.password;
+    const type = req.body.type;
+    const status = req.body.status;
+    
+    
 
     var query = "";
-    var update2 = {
-        user_id:user_id,
-        password2:password2,
-        type2:type2
-    };
-    query = connect.con.query('UPDATE Users SET password= ?,  type =?  where user_id = ?',[password2,type2,user_id], function(err, rows,
+    
+    var put = {
+        password,
+        type,
+        status
+    }
+    
+    query = connect.con.query('UPDATE Users SET  where user_id = ?',[put,user_id], function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
@@ -88,10 +120,8 @@ function update(req, res) {
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
     const user_id = req.params.user_id;
-    const delete2 = {
-        user_id: user_id
-    };
-    connect.con.query('DELETE from Users where user_id = '+user_id, delete2,function(err, rows, fields) {
+   
+    connect.con.query('DELETE from Users where user_id = ?', [user_id], function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
             if (rows.length == 0) {
@@ -115,5 +145,7 @@ module.exports = {
         readById: readById,
         save: save,
         update: update,
-        deleteID: deleteID
+        deleteID: deleteID,
+        login: login,
+        updateStatus: updateStatus
     };

@@ -31,6 +31,8 @@ function save(req, res) {
     const nif = req.body('nif').escape();
     const phone_number = req.body('phone_number').escape();
     const address = req.body('address').escape();
+    const fk_Collaborators_user_id = req.body('fk_Collaborators_user_id').escape();
+    
     var query = "";
     var post = {
         collaborator_id: collaborator_id,
@@ -62,16 +64,19 @@ function save(req, res) {
 //efetuar updade de todos os dados para um determinado collaborator_id
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    const collaborator_id = req.sanitize('manager_id').escape();
-    const name = req.sanitize('name').escape();
-    const birth_date = req.sanitize('birth_date').escape();
-    const gender = req.sanitize('gender').escape();
-    const nif = req.sanitize('nif').escape();
-    const phone_number = req.sanitize('phone_number').escape();
-    const address = req.sanitize('address').escape();
-    console.log("without hahsh:" + req.body.pass);
+    const collaborator_id = req.params.collaborator_id;
+    const name = req.body.name;
+    const birth_date = req.body.birth_date;
+    const gender = req.body.gender;
+    const nif = req.body.nif;
+    const phone_number = req.body.phone_number;
+    const address = req.body.address;
+    const fk_Collaborators_user_id = req.body.fk_Collaborators_user_id;
+    const status = req.body.status;
+    
     var query = "";
-    var update = {
+    
+    var put = {
         collaborator_id,
         name,
         birth_date,
@@ -79,13 +84,40 @@ function update(req, res) {
         nif,
         phone_number,
         address,
+        fk_Collaborators_user_id,
+        status
     };
-    query = connect.con.query('UPDATE Collaborators SET collaborator_id = ?, name =?, birth_date =?, gender=?, nif =?, phone_number =?, address =?, where collaborator_id=?', update, function(err, rows,
+    query = connect.con.query('UPDATE Collaborators SET ? where collaborator_id = ?,', [put, collaborator_id], function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
             console.log("Number of records updated: " + rows.affectedRows);
             res.status(200).send({ "msg": "update with success" });
+        }
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
+    });
+}
+
+
+
+function logicalDelete (req, res) {
+    //receber os dados do formuário que são enviados por post
+    const collaborator_id = req.params.collaborator_id;
+    const status = req.body.status;
+    
+    var query = "";
+    
+    var put = {
+        status
+    }
+
+    query = connect.con.query('UPDATE Collaborators SET ? where collaborator_id = ?', [put, collaborator_id], function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).send("Request disabled with success!");
         }
         else {
             res.status(400).send({ "msg": err.code });
@@ -126,5 +158,6 @@ read: read,
 readById: readById,
 save: save,
 update: update,
+logicalDelete: logicalDelete,
 deleteID: deleteID,
 };

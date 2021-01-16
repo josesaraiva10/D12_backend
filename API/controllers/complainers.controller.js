@@ -71,25 +71,35 @@ function save(req, res) {
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    const name2 = req.body.name;
-    const phone_number2 = req.body.phone_number;
-    const address2 = req.body.address;
-    const complainer_cc = req.params.complainer_cc;
-    console.log("without hahsh:" + req.body.pass);
-
+    const complainer_cc = req.params.complainer_cc
+    const email = req.body.email;
+    const name = req.body.name;
+    const birth_date = req.body.birth_date;
+    const gender = req.body.gender;
+    const phone_number = req.body.phone_number;
+    const address = req.body.address;
+    const postal_code = req.body.postal_code;
+    const fk_Complainers_user_id = req.body.fk_Complainers_user_id;
+    const status = req.body.status;
+    
     var query = "";
-    var update = {
-        name2,
-        phone_number2,
-        address2,
-        complainer_cc
-         };
-    query = connect.con.query('UPDATE Complainers SET name = '+name2+', phone_number = '+phone_number2+', address = '+address2+', where complainer_cc = '+complainer_cc, update, function(err, rows,
-        fields) {
+    
+    var put = {
+        email,
+        name,
+        birth_date,
+        gender,
+        phone_number,
+        address,
+        postal_code,
+        fk_Complainers_user_id,
+        status
+    }
+
+    query = connect.con.query('UPDATE Complainers SET ? where complainer_cc = ?', [put,complainer_cc], function(err, rows, fields) {
         console.log(query.sql);
         if (!err) {
-            console.log("Number of records updated: " + rows.affectedRows);
-            res.status(200).send({ "msg": "update with success" });
+            res.status(200).send("Complainer updated with success")
         }
         else {
             res.status(400).send({ "msg": err.code });
@@ -99,13 +109,44 @@ function update(req, res) {
 }
 
 
+
+function logicalDelete (req, res) {
+    //receber os dados do formuário que são enviados por post
+    const complainer_cc = req.params.complainer_cc;
+    const status = req.body.status;
+    
+    var query = "";
+    
+    var put = {
+        status
+    }
+
+    query = connect.con.query('UPDATE Complainers SET ? where complainer_cc = ?' , [put, complainer_cc] , function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).send("Request disabled with success!");
+        }
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
     const complainer_cc = req.params.complainer_cc;
-    const delete2 = {
-        complainer_cc: complainer_cc
-    };
-    connect.con.query('DELETE from Complainers where complainer_cc = ?', delete2, function(err, rows, fields) {
+   
+    connect.con.query('DELETE from Complainers where complainer_cc = ?', [complainer_cc], function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
             if (rows.length == 0) {
@@ -130,5 +171,6 @@ module.exports = {
         readById: readById,
         save: save,
         update: update,
+        logicalDelete: logicalDelete,
         deleteID: deleteID
     };
