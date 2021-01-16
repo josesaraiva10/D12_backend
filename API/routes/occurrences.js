@@ -3,10 +3,10 @@ const router = express.Router();
 const occurrences = require('../controllers/occurrences.controller.js');
 
 router.get("/", occurrences.read);
-router.get("/:occurence_id", occurrences.readById);
+router.get("/:occurrence_id", occurrences.readById);
 router.post("/", occurrences.save);
-router.put('/:occurence_id', occurrences.update);
-router.put('/occurence/:occurence_id', occurrences.logicalDelete);
-router.delete('/:occurence_id', occurrences.deleteID);
+router.put('/:occurrence_id', occurrences.update);
+router.put('/occurrence/:occurrence_id', occurrences.logicalDelete);
+router.delete('/:occurrence_id', occurrences.deleteID);
 
 module.exports = router;
