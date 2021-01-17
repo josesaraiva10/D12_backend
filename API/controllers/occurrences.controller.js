@@ -38,7 +38,7 @@ function save(req, res) {
     const fk_Occ_team_id = req.sanitize('fk_Occ_team_id').escape();
     const fk_Occ_manager_id = req.sanitize('fk_Occ_manager_id').escape();
     const fk_Occ_request_id = req.sanitize('fk_Occ_request_id').escape();
-    
+    const filed = req.sanitize('filed').escape();
     
     var query = "";
     
@@ -53,7 +53,8 @@ function save(req, res) {
         status2 : status2,
         fk_Occ_manager_id : fk_Occ_manager_id,
         fk_Occ_team_id : fk_Occ_team_id,
-        fk_Occ_request_id : fk_Occ_request_id
+        fk_Occ_request_id : fk_Occ_request_id,
+        filed : filed
         
     };
 
@@ -91,7 +92,7 @@ function update(req, res) {
     const fk_Occ_request_id = req.body.fk_Occ_request_id;
     const services = req.body.services;
     const status2 = req.body.status2;
-    
+    const filed = req.body.filed;
     
  var query = "";
  
@@ -106,7 +107,8 @@ function update(req, res) {
      fk_Occ_team_id,
      fk_Occ_request_id,
      services,
-     status2
+     status2,
+     filed
  } 
  
 

@@ -89,7 +89,7 @@ function update(req, res) {
     const place = req.body.place;
     const urgency = req.body.urgency;
     const locality = req.body.locality;
-    const entity = req.body.entity2;
+    const entity = req.body.entity;
     const status = req.body.status;
     const filed = req.body.filed;
     const fk_Requests_collaborator_id = req.body.fk_Requests_collaborator_id; 
