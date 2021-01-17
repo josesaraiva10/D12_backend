@@ -64,13 +64,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 require('./routes/auth.route.js')(app, passport);
 require('./config/passport/passport.js')(passport, models.user);
+
 //Sync Database
-models.sequelize.sync().then(function() {
+models.sequelize.sync().then( function() {
   console.log('Nice! Database looks fine');
 
-}).catch(function(err) {
+}.catch(function(err) {
   console.log(err, "Something went wrong with the Database Update!");
-});
+}));
 
 
 //loader calls all routes
