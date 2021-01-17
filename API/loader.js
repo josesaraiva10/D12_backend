@@ -1,16 +1,31 @@
 const app = require('./app.js');
 const router = require('./routes/mainroutes.js');
 const cookieParser = require('cookie-parser');
+const passport = require('passport');
+const session = require ('express-session');
+const expressSanitizer = require ('express-sanitizer');
 const bodyParser = require('body-parser');
+const models = require("./models/");
 const expressValidator = require('express-validator');
-const cors = require('cors');
+
 
 //Adicionar o validator ao middleware
 app.use(bodyParser.json(), bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(expressValidator());
 app.use(cookieParser());
-app.use(cors());
+
+app.set('trust proxy', 1);
+app.use(session({
+  secret: 'webbookfca',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    secure: true,
+    maxAge: 60000,
+    httpOnly: true,
+  }
+}));
 //obriga a utilizar as cookies
 app.use(function(req, res, next) {
     // check if client sent cookie
@@ -30,6 +45,31 @@ app.use(function(req, res, next) {
         console.log('cookie exists', cookie);
     }
     next(); // <-- important!
+});
+
+app.use(expressValidator());
+app.use(function(req, res, next) {
+  // check if session exists
+  if (global.sessData === undefined) {
+    global.sessData = req.session;
+    global.sessData.ID = req.sessionID;
+  }
+  else { // yes, cookie was already present
+    console.log('session exists', global.sessData.ID);
+  }
+  next();
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+require('./routes/auth.route.js')(app, passport);
+require('./config/passport/passport.js')(passport, models.user);
+//Sync Database
+models.sequelize.sync().then(function() {
+  console.log('Nice! Database looks fine');
+
+}).catch(function(err) {
+  console.log(err, "Something went wrong with the Database Update!");
 });
 
 

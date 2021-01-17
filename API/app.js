@@ -4,6 +4,11 @@ const mysql = require('mysql');
 const port = process.env.PORT;
 const connect = require('./Config/connection.js');
 const cors = require('cors');
+
+
+app.use(cors());
+app.use('/assets', express.static('assets'));
+app.use('/views', express.static('views'));
 //Port Listen
 app.listen(port, () => {
     console.log('Server is running at port '+port);
