@@ -1,5 +1,5 @@
 const app = require('../app.js');
-const connect = require('../Config/connection.js');
+const connect = require('../config/connection.js');
 
 // read - seleciona todas as auditorias da tabela Audits
 function read(req, res) {

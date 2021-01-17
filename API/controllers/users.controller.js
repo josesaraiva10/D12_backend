@@ -1,5 +1,5 @@
 const app = require('../app.js');
-const connect = require('../Config/connection.js');
+const connect = require('../config/connection.js');
 
 // lê toda a informação que está contida na tabela dos users
 function read(req,res) {

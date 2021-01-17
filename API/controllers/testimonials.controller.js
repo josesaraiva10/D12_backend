@@ -1,5 +1,5 @@
 const app = require('../app.js');
-const connect = require('../Config/connection.js');
+const connect = require('../config/connection.js');
 
 function read(req, res) {
     connect.con.query('SELECT * from Testimonials', (err, rows) => {

@@ -1,5 +1,5 @@
 const app = require('../app.js');
-const connect = require('../Config/connection.js');
+const connect = require('../config/connection.js');
 
 //lê a tabela dos queixosos
 function read(req,res) {

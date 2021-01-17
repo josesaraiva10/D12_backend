@@ -1,5 +1,5 @@
 const app = require('../app.js');
-const connect = require('../Config/connection.js');
+const connect = require('../config/connection.js');
 
 //lê os dados contidos na tabela de pedidos
 function read(req, res) {

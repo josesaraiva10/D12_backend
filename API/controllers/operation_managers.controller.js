@@ -1,5 +1,5 @@
 const app = require('../app.js');
-const connect = require('../Config/connection.js');
+const connect = require('../config/connection.js');
 
 //lê o conteúdo da tabela dos gestores de operações
 function read(req,res) {
