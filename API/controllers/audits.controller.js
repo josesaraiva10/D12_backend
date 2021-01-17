@@ -134,6 +134,29 @@ function deleteID(req, res) {
     });
 }
 
+function logicalDelete (req, res) {
+    //receber os dados do formuário que são enviados por post
+    const audit_id = req.params.audit_id;
+    const status = req.body.status2;
+    
+    var query = "";
+    
+    var put = {
+        status
+    }
+
+    query = connect.con.query('UPDATE Audits SET ? where audit_id = ?', [put, audit_id], function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).send("Audit disabled with success!");
+        }
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
+    });
+}
+
 module.exports = {
     read: read,
     readById: readById,
@@ -141,4 +164,5 @@ module.exports = {
     save: save,
     update: update,
     deleteID: deleteID,
+    logicalDelete: logicalDelete
 };

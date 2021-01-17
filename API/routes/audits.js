@@ -8,6 +8,6 @@ router.get('/status/:status', audits.readByStatus);
 router.post("/", audits.save);
 router.put('/:audit_id', audits.update);
 router.delete('/:audit_id', audits.deleteID);
-
+router.put('/deleteL/:audit_id', audits.logicalDelete);
 
 module.exports = router;

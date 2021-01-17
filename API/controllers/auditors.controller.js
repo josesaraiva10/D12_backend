@@ -30,7 +30,7 @@ function readById(req, res) {
    connect.con.query(mainQuery, [auditor_id], (err, rows) => {
         if(err) throw err;
         console.log('The auditor you are looking for is: \n', rows);
-        res.send(rows[0]);
+        res.send(rows);
     });
 }
 
@@ -133,10 +133,34 @@ function deleteID(req, res) {
     });
 }
 
+function logicalDelete (req, res) {
+    //receber os dados do formuário que são enviados por post
+    const auditor_id = req.params.auditor_id;
+    const status = req.body.status;
+    
+    var query = "";
+    
+    var put = {
+        status
+    }
+
+    query = connect.con.query('UPDATE Auditors SET ? where auditor_id = ?', [put, auditor_id], function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).send("Auditor disabled with success!");
+        }
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
+    });
+}
+
 module.exports = {
     read: read,
     readById: readById,
     save: save,
     update: update,
-    deleteID: deleteID
+    deleteID: deleteID,
+    logicalDelete: logicalDelete
 };

@@ -7,6 +7,6 @@ router.get('/:auditor_id', auditors.readById);
 router.post("/", auditors.save);
 router.put('/:auditor_id', auditors.update);
 router.delete('/:auditor_id', auditors.deleteID);
-
+router.put('/deleteL/:auditor_id', auditors.logicalDelete);
 
 module.exports = router;
