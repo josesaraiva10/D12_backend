@@ -80,7 +80,7 @@ function save(req, res) {
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-    const occurrence_id = req.params.occurence_id;
+    const occurrence_id = req.params.occurrence_id;
     const start_date = req.body.start_date;
     const end_date = req.body.end_date;
     const status1 = req.body.status1;
@@ -113,7 +113,7 @@ function update(req, res) {
  
 
  
-    query = connect.con.query('Update Occurrences SET ? WHERE occurrence_id = ?', [put, occurrence_id], function(err, rows,fields) {
+    query = connect.con.query('Update Occurrences SET ? where occurrence_id = ?', [put, occurrence_id], function(err, rows,fields) {
         console.log(query.sql);
         if (!err) {
             console.log("Number of records updated: " + rows.affectedRows);
