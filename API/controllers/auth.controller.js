@@ -1,6 +1,8 @@
 const jsonMessagesPath = __dirname + "/../assets/jsonMessages/";
 const jsonMessages = require(jsonMessagesPath + "login");
+
 var exports = module.exports = {};
+
 exports.signup = function(req, res) {
     res.status(jsonMessages.user.duplicate.status).send(jsonMessages.user.duplicate);
 };
