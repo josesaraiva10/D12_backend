@@ -222,4 +222,3 @@ module.exports = {
     updateOperationalOccurrencePresence: updateOperationalOccurrencePresence,
     readOperationalFromOccurrence: readOperationalFromOccurrence
 };
-
