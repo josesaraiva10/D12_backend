@@ -4,6 +4,7 @@ const router = express.Router();
 const requests = require('../controllers/requests.controller.js');
 const auditors = require('../controllers/auditors.controller.js');
 const audits = require('../controllers/audits.controller.js');
+const evaluations = require('../controllers/evaluations.controller.js');
 const collaborators = require('../controllers/collaborators.controller.js');
 const inventory = require('../controllers/inventory.controller.js');
 const occurrences = require('../controllers/occurrences.controller.js');

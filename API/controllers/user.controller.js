@@ -1,6 +1,6 @@
 module.exports = function(sequelize, Sequelize) {
     const User = sequelize.define('user', {
-        id: {
+        user_id: {
             autoIncrement: true,
             primaryKey: true,
             type: Sequelize.INTEGER
@@ -36,8 +36,8 @@ module.exports = function(sequelize, Sequelize) {
             type: Sequelize.DATE
         },
         status: {
-            type: Sequelize.ENUM('active', 'inactive'),
-            defaultValue: 'active'
+            type: Sequelize.ENUM('on', 'off'),
+            defaultValue: 'on'
         }
     });
     return User;

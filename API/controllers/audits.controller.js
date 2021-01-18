@@ -51,6 +51,7 @@ function save(req, res) {
     const description = req.sanitize('description').escape();
     const auditor_id = req.sanitize('fk_Audits_auditor_id').escape();
     const occurrence_id = req.sanitize('fk_Audits_occurrence_id').escape();
+    const evaluation_id = req.sanitize('fk_Audits_evaluation_id').escape();
     
     var query = "";
     var post = {
@@ -58,7 +59,8 @@ function save(req, res) {
         evaluation: evaluation,
         description: description,
         fk_Audits_auditor_id: auditor_id,
-        fk_Audits_occurrence_id: occurrence_id
+        fk_Audits_occurrence_id: occurrence_id,
+        fk_Audits_evaluation_id: evaluation_id
     };
     
     query = connect.con.query('INSERT INTO Audits SET ?', post, function(err, rows, fields) {
