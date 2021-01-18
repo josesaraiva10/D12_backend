@@ -91,7 +91,8 @@ const task_force = require('./routes/task_force.js');
 const testimonials = require('./routes/testimonials.js');
 const faqs = require('./routes/faqs.js');
 const services = require('./routes/services.js');
-
+const auth = require('./routes/auth.route.js');
+const mail = require('./routes/mail.js');
 
 app.use('/', index);
 app.use('/users', users);
@@ -108,6 +109,6 @@ app.use('/task_force', task_force);
 app.use('/testimonials', testimonials);
 app.use('/faqs', faqs);
 app.use('/services', services);
-
+app.use('/mail', mail);
 
 module.exports = app;
