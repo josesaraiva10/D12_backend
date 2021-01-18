@@ -30,6 +30,25 @@ function readById(req, res) {
     });
 }
 
+// readById - seleciona uma Evaluation com o evaluation_id dado da tabela Evaluations
+function sumGrade(req, res) {
+    const evaluation_id = req.params.evaluation_id;
+    const ev_1 = req.params.ev_1;
+    const ev_2 = req.params.ev_2;
+    const ev_3 = req.params.ev_3;
+    const ev_4 = req.params.ev_4;
+    const ev_5 = req.params.ev_5;
+    const grade = req.params.grade;
+    
+    let mainQuery = 'SELECT (? + ? + ? + ? + ?) AS ? FROM Evaluations where evaluation_id = ?';
+    
+    connect.con.query(mainQuery, [ev_1, ev_2, ev_3, ev_4, ev_5, grade, evaluation_id], (err, rows) => {
+        if(err) throw err;
+        console.log('The evaluation you are looking for is: \n', rows)
+        res.send(rows[0]);
+    });
+}
+
 //    save - Insere uma avaliação na tabela Evaluations
 //    Recebe os 7 parâmetros - evaluation_id // ev_1 // ev_2 // ev_3 // ev_4 // ev_5 // grade
 function save(req, res) {
@@ -135,6 +154,7 @@ function deleteID(req, res) {
 module.exports = {
     read: read,
     readById: readById,
+    sumGrade: sumGrade,
     save: save,
     update: update,
     deleteID: deleteID,
