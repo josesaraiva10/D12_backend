@@ -3,8 +3,8 @@ module.exports = {
         duplicate: {
             msg: "DuplicateValues",
             message: {
-                eng: "Email already registered!",
-                pt: "O seu e-mail já se encontra registado!"
+                eng: "User_id already registered!",
+                pt: "O seu user_id já se encontra registado!"
             },
             status: 409,
             success: false
@@ -31,8 +31,8 @@ module.exports = {
         email: {
             msg: "Invalid",
             message: {
-                eng: "Invalid email",
-                pt: "O email que inseriu não se encontra registado"
+                eng: "Invalid user_id",
+                pt: "O id que inseriu não se encontra registado"
             },
             status: 400,
             success: false
@@ -46,7 +46,7 @@ module.exports = {
             status: 400,
             success: false
         },
-        signinSucces: {
+        signinSuccess: {
             msg: "Success",
             message: {
                 eng: "Login with sucess",

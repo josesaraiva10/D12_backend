@@ -175,43 +175,9 @@ function logicalDelete (req, res) {
         }
     });
 }
-function readOperationalFromOccurrence(req, res) {
-    //criar e executar a query de leitura na BD
-    const id_occurrence = req.sanitize('id_occurrence').escape();
-    connect.con.query('SELECT * FROM operational_occurrence where id_occurrence=? order by id_operational', [id_occurrence], function(err,
-        rows, fields) {
-        if (!err) {
-            //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
-            if (rows.length == 0) {
-                res.status(404).send("Data not found");
-            }
-            else {
-                res.status(200).send(rows);
-            }
-        }
-        else
-            console.log('Error while performing Query.', err);
-    });
-}
-function updateOperationalOccurrencePresence(req, res) {
-        const presence = req.sanitize('presence').escape();
-        const id_operational = req.sanitize('id_operational').escape();
-        const id_occurrence = req.sanitize('id_occurrence').escape();
-        let query = "";
-        query = connect.con.query('Update ?? SET presence = ? where id_operational=? and id_occurrence=?', ["operational_occurrence", presence, id_operational, id_occurrence], function(err, rows,
-            fields) {
-            console.log(query.sql);
-            if (!err) {
-                console.log("Number of records updated: " + rows.affectedRows);
-                res.status(200).send({ "msg": "update with success" });
-            }
-            else {
-                res.status(400).send({ "msg": err.code });
-                console.log('Error while performing Query.', err);
-            }
-        });
 
-}
+
+
 module.exports = {
     read: read,
     readById: readById,
@@ -219,6 +185,5 @@ module.exports = {
     update: update,
     deleteID: deleteID,
     logicalDelete: logicalDelete,
-    updateOperationalOccurrencePresence: updateOperationalOccurrencePresence,
-    readOperationalFromOccurrence: readOperationalFromOccurrence
+   
 };

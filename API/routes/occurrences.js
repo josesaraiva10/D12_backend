@@ -8,7 +8,5 @@ router.post("/", occurrences.save);
 router.put('/occurrence/:occurrence_id', occurrences.logicalDelete);
 router.put('/:occurrence_id', occurrences.update);
 router.delete('/occurrence_id', occurrences.deleteID);
-router.get('/:occurrence_id/operationals',occurrences.readOperationalFromOccurrence);
-router.put('/:occurrence_id/operationals/:user_id',occurrences.updateOperationalOccurrencePresence)
 
 module.exports = router;
