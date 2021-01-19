@@ -4,7 +4,7 @@ let path      = require("path");
 let Sequelize = require("sequelize");
 let env       = "MySQL";
 let config    = require(path.join(__dirname, '../', 'config', 'config.json'))[env];
-let sequelize = new Sequelize(config.database, config.username, config.password, config);
+let sequelize = new Sequelize(config.database, config.user_id, config.password, config);
 let db        = {};
 fs
   .readdirSync(__dirname)

@@ -61,7 +61,7 @@ module.exports = function(passport, user) {
       passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function(req, user_id, password, done) {
-      var User = user;
+      var User = user_id;
       var isValidPassword = function(userpass, password) {
         return bCrypt.compareSync(password, userpass);
 
