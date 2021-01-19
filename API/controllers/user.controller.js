@@ -3,8 +3,7 @@ module.exports = function(sequelize, Sequelize) {
         user_id: {
             autoIncrement: true,
             primaryKey: true,
-            type: Sequelize.INTEGER
-        },
+            type: Sequelize.STRING
         firstname: {
             type: Sequelize.STRING,
             notEmpty: true

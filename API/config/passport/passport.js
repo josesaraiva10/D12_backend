@@ -20,7 +20,7 @@ module.exports = function(passport, user) {
     });
   });
   passport.use('local-signup', new LocalStrategy({
-      usernameField: 'user_id',
+      user_idField: 'user_id',
       passwordField: 'password',
       passReqToCallback: true // allows us to pass back the entire request to the callback
 
@@ -56,7 +56,7 @@ module.exports = function(passport, user) {
   //LOCAL SIGNIN
   passport.use('local-signin', new LocalStrategy({
       // by default, local strategy uses username and password, we will override with email
-      usernameField: 'user_id',
+      user_idField: 'user_id',
       passwordField: 'password',
       passReqToCallback: true // allows us to pass back the entire request to the callback
     },
