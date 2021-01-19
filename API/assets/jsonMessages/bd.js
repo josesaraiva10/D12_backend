@@ -57,12 +57,12 @@ module.exports = {
         duplicateEmail: {
             msg: "emailDuplicated",
             message: {
-                eng: "Email already registered!",
-                pt: "O seu e-mail já se encontra registado!"
+                eng: "User_id already registered!",
+                pt: "O seu user_id já se encontra registado!"
             },
             success: false,
             err_code: 1,
-            err_message: "email já existente",
+            err_message: "user_id já existente",
             status: 409,
         },
         requiredData: {
