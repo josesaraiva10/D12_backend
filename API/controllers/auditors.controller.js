@@ -82,7 +82,6 @@ function save(req, res) {
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
     const auditor_id = req.params.auditor_id;
-    const cc_auditor = req.body.cc_auditor;
     const phone_number = req.body.phone_number;
     const address = req.body.address;
     const email = req.body.email;
@@ -90,7 +89,6 @@ function update(req, res) {
     var query = "";
     
     var put = {
-        cc_auditor,
         phone_number,
         address,
         email
