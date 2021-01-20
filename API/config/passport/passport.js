@@ -20,7 +20,7 @@ module.exports = function(passport, user) {
     });
   });
   passport.use('local-signup', new LocalStrategy({
-      user_idField: 'user_id',
+      idField: 'user_id',
       passwordField: 'password',
       passReqToCallback: true // allows us to pass back the entire request to the callback
 
@@ -29,14 +29,14 @@ module.exports = function(passport, user) {
       var generateHash = function(password) {
         return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
       };
-      User.findOne({ where: { user_id: user_id } }).then(function(user) {
+      User.findOne({ where: { id: user_id } }).then(function(user) {
         if (user) {
           return done(null, false, jsonMessages.user.duplicate);
         }
         else {
           var userPassword = generateHash(password);
           var data = {
-            user_id: user_id,
+            id: user_id,
             password: userPassword,
             nome: req.body.firstname,
             apelido: req.body.lastname
@@ -56,7 +56,7 @@ module.exports = function(passport, user) {
   //LOCAL SIGNIN
   passport.use('local-signin', new LocalStrategy({
       // by default, local strategy uses username and password, we will override with email
-      user_idField: 'user_id',
+      idField: 'user_id',
       passwordField: 'password',
       passReqToCallback: true // allows us to pass back the entire request to the callback
     },
@@ -66,7 +66,7 @@ module.exports = function(passport, user) {
         return bCrypt.compareSync(password, userpass);
 
       }
-      User.findOne({ where: { user_id: user_id } }).then(function(user) {
+      User.findOne({ where: { id: user_id } }).then(function(user) {
         if (!user) {
           return done(null, false, jsonMessages.user.user_id);
         }
