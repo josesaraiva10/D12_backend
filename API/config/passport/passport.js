@@ -20,7 +20,6 @@ module.exports = function(passport, user) {
     });
   });
   passport.use('local-signup', new LocalStrategy({
-      idField: 'user_id',
       passwordField: 'password',
       passReqToCallback: true // allows us to pass back the entire request to the callback
 
@@ -36,10 +35,7 @@ module.exports = function(passport, user) {
         else {
           var userPassword = generateHash(password);
           var data = {
-            id: user_id,
-            password: userPassword,
-            nome: req.body.firstname,
-            apelido: req.body.lastname
+            password: userPassword
           };
           User.create(data).then(function(newUser, created) {
             if (!newUser) {
