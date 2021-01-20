@@ -65,7 +65,7 @@ module.exports = function(passport, user) {
       }
       User.findOne({ where: { id: id } }).then(function(user) {
         if (!user) {
-          return done(null, false, jsonMessages.user.email);
+          return done(null, false, jsonMessages.user.id);
         }
         if (!isValidPassword(user.password, password)) {
           return done(null, false, jsonMessages.user.password);
