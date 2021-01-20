@@ -152,7 +152,7 @@ function deleteID(req, res) {
     //criar e executar a query de leitura na BD
     const request_id = req.params.request_id;
     
-    connect.con.query('SET FOREIGN_KEY_CHECKS=0; DELETE from Requests where request_id = ?', [request_id],  function(err, rows, fields) {
+    connect.con.query('DELETE from Requests where request_id = ?', [request_id],  function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
             if (rows.length == 0) {
