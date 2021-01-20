@@ -10,7 +10,7 @@ function read(req,res) {
 }
 
 function readById(req,res) {
-    let material_id = req.params.id;
+    const material_id = req.sanitize('material_id').escape();
     let mainQuery = 'SELECT * from Inventory where material_id = ?';
     connect.con.query(mainQuery, [material_id], (err, rows) => {
         if(err) throw err;
@@ -64,13 +64,11 @@ function deleteID(req, res) {
 
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
-    const material_id = req.sanitize('material_id').escape();
     const material_type = req.sanitize('material_type').escape();
     const availability = req.sanitize('availability').escape();
     
     var query = "";
     var post = {
-        material_id: material_id,
         material_type: material_type,
         availability: availability,
       
@@ -103,6 +101,15 @@ function readByOccurrenceId(req,res) {
     });
 }
 
+function readAvailableOnly(req,res) {
+    let mainQuery = 'SELECT * from Inventory where availability = 1';
+    connect.con.query(mainQuery, (err, rows) => {
+        if(err) throw err;
+        console.log('The inventory available is: \n', rows);
+        res.send(rows); 
+    });
+}
+
 
 module.exports = {
 read: read,
@@ -110,5 +117,6 @@ readById: readById,
 update: update,
 deleteID: deleteID,
 save: save,
-readByOccurrenceId: readByOccurrenceId
+readByOccurrenceId: readByOccurrenceId,
+readAvailableOnly: readAvailableOnly
 };

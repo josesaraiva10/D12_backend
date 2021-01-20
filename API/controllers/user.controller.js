@@ -4,6 +4,7 @@ module.exports = function(sequelize, Sequelize) {
             autoIncrement: true,
             primaryKey: true,
             type: Sequelize.STRING
+        },
         firstname: {
             type: Sequelize.STRING,
             notEmpty: true

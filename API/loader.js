@@ -93,6 +93,7 @@ const faqs = require('./routes/faqs.js');
 const services = require('./routes/services.js');
 const auth = require('./routes/auth.route.js');
 const mail = require('./routes/mail.js');
+const inventoryOccurence = require('./routes/inventory_occurence.js');
 
 app.use('/', index);
 app.use('/users', users);
@@ -110,5 +111,6 @@ app.use('/testimonials', testimonials);
 app.use('/faqs', faqs);
 app.use('/services', services);
 app.use('/mail', mail);
+app.use('/inventoryOccurence', inventoryOccurence);
 
 module.exports = app;
