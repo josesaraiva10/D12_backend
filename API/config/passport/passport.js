@@ -1,7 +1,6 @@
 var bCrypt = require('bcrypt-nodejs');
 const jsonMessagesPath = __dirname + "/../../assets/jsonMessages/";
 var jsonMessages = require(jsonMessagesPath + "login");
-
 module.exports = function(passport, user) {
   var User = user;
   var LocalStrategy = require('passport-local').Strategy;
@@ -20,22 +19,24 @@ module.exports = function(passport, user) {
     });
   });
   passport.use('local-signup', new LocalStrategy({
+      usernameField: 'email',
       passwordField: 'password',
       passReqToCallback: true // allows us to pass back the entire request to the callback
 
     },
-    function(req, user_id, password, done) {
+    function(req, email, password, done) {
       var generateHash = function(password) {
         return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
       };
-      User.findOne({ where: { id: user_id } }).then(function(user) {
+      User.findOne({ where: { email: email } }).then(function(user) {
         if (user) {
           return done(null, false, jsonMessages.user.duplicate);
         }
         else {
           var userPassword = generateHash(password);
           var data = {
-            password: userPassword
+            email: email,
+            password: userPassword,
           };
           User.create(data).then(function(newUser, created) {
             if (!newUser) {
@@ -52,19 +53,19 @@ module.exports = function(passport, user) {
   //LOCAL SIGNIN
   passport.use('local-signin', new LocalStrategy({
       // by default, local strategy uses username and password, we will override with email
-      idField: 'user_id',
+      idField: 'id',
       passwordField: 'password',
       passReqToCallback: true // allows us to pass back the entire request to the callback
     },
-    function(req, user_id, password, done) {
-      var User = user_id;
+    function(req, id, password, done) {
+      var User = user;
       var isValidPassword = function(userpass, password) {
         return bCrypt.compareSync(password, userpass);
 
       }
-      User.findOne({ where: { id: user_id } }).then(function(user) {
+      User.findOne({ where: { id: id } }).then(function(user) {
         if (!user) {
-          return done(null, false, jsonMessages.user.user_id);
+          return done(null, false, jsonMessages.user.email);
         }
         if (!isValidPassword(user.password, password)) {
           return done(null, false, jsonMessages.user.password);
