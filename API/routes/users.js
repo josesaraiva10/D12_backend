@@ -3,12 +3,11 @@ const router = express.Router();
 const users = require('../controllers/users.controller.js');
 
 router.get('/', users.read);
-router.get('/:user_id', users.readById);
-router.post("/:login", users.login);
-router.put('/status/:user_id', users.updateStatus);
+router.get('/:id', users.readById);
 router.post("/", users.save);
-router.put('/:user_id', users.update);
-router.delete('/:user_id', users.deleteID);
+router.put('/:id', users.update);
+router.put('/user/:user_id', users.logicalDelete);
+router.delete('/:id', users.deleteID);
 
 
 module.exports = router;

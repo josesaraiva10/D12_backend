@@ -13,7 +13,7 @@ function read(req,res) {
 // lê informação de um user pelo seu id
 function readById(req,res) {
     let userID = req.params.id;
-    let mainQuery = 'SELECT * from users where user_id = ?';
+    let mainQuery = 'SELECT * from users where id = ?';
     connect.con.query(mainQuery, [userID], (err, rows) => {
         if(err) throw err;
         console.log('The user with the the id is: \n', rows);
@@ -21,33 +21,7 @@ function readById(req,res) {
     });
 }
 
-function login(req,res) {
-    const userID = req.sanitize('user_id').escape();
-    const password = req.sanitize('password').escape();
-    
-    var query = 'SELECT * from users where user_id = ? and password = ?';
-    
-    connect.con.query(query, [userID, password], (err, rows) => {
-        if(err) throw err;
-        console.log('User found successfully logged in with the ID: ', userID);
-        
-        if(rows.length > 0) {
-            updateStatus();
-        }
-        
-        res.send(rows);
-        
-    });
-}
 
-function updateStatus() {
-    var query = 'UPDATE users set status = on';
-    
-    connect.con.query(query, [], (err, rows) => {
-        if(err) throw err;
-        console.log('User is now on: ');
-    });
-}
 
 //guarda os valores existentes
 function save(req, res) {
@@ -104,7 +78,7 @@ function save(req, res) {
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
-   const user_id = req.params.user_id;
+   const id = req.params.id;
    const nome= req.body.nome;
    const apelido= req.body.apelido;
    const username= req.body.username;
@@ -131,7 +105,7 @@ function update(req, res) {
         updatedAt
     }
     
-    query = connect.con.query('UPDATE users SET  where user_id = ?',[put,user_id], function(err, rows,
+    query = connect.con.query('UPDATE users SET  where id = ?',[put,id], function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
@@ -146,12 +120,40 @@ function update(req, res) {
 }
 
 
+
+
+function logicalDelete (req, res) {
+    //receber os dados do formuário que são enviados por post
+    const id = req.params.id;
+    const status = req.body.status;
+    
+    var query = "";
+    
+    var put = {
+        status
+    }
+
+    query = connect.con.query('UPDATE users SET ? where id = ?', [put, id], function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).send("Request disabled with success!");
+        }
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
+    });
+}
+
+
+
+
 //função que apaga todos os dados de um iduser
 function deleteID(req, res) {
     //criar e executar a query de leitura na BD
-    const user_id = req.params.user_id;
+    const id = req.params.id;
    
-    connect.con.query('DELETE from users where user_id = ?', [user_id], function(err, rows, fields) {
+    connect.con.query('DELETE from users where id = ?', [id], function(err, rows, fields) {
         if (!err) {
             //verifica os resultados se o número de linhas for 0 devolve dados não encontrados, caso contrário envia os resultados (rows).
             if (rows.length == 0) {
@@ -175,7 +177,7 @@ module.exports = {
         readById: readById,
         save: save,
         update: update,
+        logicalDelete: logicalDelete,
         deleteID: deleteID,
-        login: login,
-        updateStatus: updateStatus
+       
     };
