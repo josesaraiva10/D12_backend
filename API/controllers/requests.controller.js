@@ -127,12 +127,12 @@ function update(req, res) {
 function logicalDelete (req, res) {
     //receber os dados do formuário que são enviados por post
     const request_id = req.params.request_id;
-    const status = req.body.status1;
+    const status1 = req.body.status1;
     
     var query = "";
     
     var put = {
-        status
+        status1
     }
 
     query = connect.con.query('UPDATE Requests SET ? where request_id = ?', [put, request_id], function(err, rows, fields) {
