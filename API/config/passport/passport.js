@@ -36,7 +36,7 @@ module.exports = function(passport, user) {
           var userPassword = generateHash(password);
           var data = {
             email: email,
-            password: userPassword,
+            password: userPassword
           };
           User.create(data).then(function(newUser, created) {
             if (!newUser) {
@@ -53,19 +53,19 @@ module.exports = function(passport, user) {
   //LOCAL SIGNIN
   passport.use('local-signin', new LocalStrategy({
       // by default, local strategy uses username and password, we will override with email
-      idField: 'id',
+      usernameField: 'email',
       passwordField: 'password',
       passReqToCallback: true // allows us to pass back the entire request to the callback
     },
-    function(req, id, password, done) {
+    function(req, email, password, done) {
       var User = user;
       var isValidPassword = function(userpass, password) {
         return bCrypt.compareSync(password, userpass);
 
       }
-      User.findOne({ where: { id: id } }).then(function(user) {
+      User.findOne({ where: { email: email } }).then(function(user) {
         if (!user) {
-          return done(null, false, jsonMessages.user.id);
+          return done(null, false, jsonMessages.user.email);
         }
         if (!isValidPassword(user.password, password)) {
           return done(null, false, jsonMessages.user.password);
