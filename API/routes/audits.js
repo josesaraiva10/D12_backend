@@ -7,6 +7,7 @@ router.get('/:audit_id', audits.readById);
 router.get('/status/:status', audits.readByStatus);
 router.post("/", audits.save);
 router.put('/:audit_id', audits.update);
+router.put('/updateGrade/:audit_id', audits.updateGrade);
 router.delete('/:audit_id', audits.deleteID);
 router.put('/deleteL/:audit_id', audits.logicalDelete);
 

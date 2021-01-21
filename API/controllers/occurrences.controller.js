@@ -176,8 +176,24 @@ function logicalDelete (req, res) {
     });
 }
 
-
-
+function updateOccurrenceArrival(req, res) {
+    //receber os dados do formuário que são enviados por post
+    const occurrence_id = req.sanitize('occurrence_id').escape();
+    const start_date = req.sanitize('start_date').escape();
+    let query = "";
+    query = connect.con.query('update ?? SET start_date=? where occurrence_id=?', ['Occurrences', start_date, occurrence_id], function(err, rows,
+        fields) {
+        console.log(query.sql);
+        if (!err) {
+            console.log("Number of records updated: " + rows.affectedRows);
+            res.status(200).send({ "msg": "update with success" });
+        }
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
+    });
+}
 module.exports = {
     read: read,
     readById: readById,
@@ -185,5 +201,5 @@ module.exports = {
     update: update,
     deleteID: deleteID,
     logicalDelete: logicalDelete,
-   
+   updateOccurrenceArrival : updateOccurrenceArrival
 };

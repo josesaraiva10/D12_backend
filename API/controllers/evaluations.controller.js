@@ -30,7 +30,7 @@ function readById(req, res) {
     });
 }
 
-// readById - seleciona uma Evaluation com o evaluation_id dado da tabela Evaluations
+
 function sumGrade(req, res) {
     const evaluation_id = req.params.evaluation_id;
     const ev_1 = req.params.ev_1;

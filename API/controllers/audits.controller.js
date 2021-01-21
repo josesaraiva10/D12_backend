@@ -85,7 +85,6 @@ function update(req, res) {
     const audit_id = req.params.audit_id;
     const evaluation = req.body.evaluation;
     const description = req.body.description;
-    const grade = req.body.grade;
     const status = req.body.status;
     
     var query = "";
@@ -93,8 +92,30 @@ function update(req, res) {
     var put = {
         evaluation,
         description,
-        grade,
         status
+    }
+    
+    query = connect.con.query('UPDATE Audits SET ? where audit_id = ?', [put, audit_id], function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).send("Audit updated with success!");
+        }
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
+    });
+}
+
+function updateGrade(req, res) {
+    //receber os dados do formuário que são enviados por post
+    const audit_id = req.params.audit_id;
+    const grade = req.body.grade;
+    
+    var query = "";
+    
+    var put = {
+        grade
     }
     
     query = connect.con.query('UPDATE Audits SET ? where audit_id = ?', [put, audit_id], function(err, rows, fields) {
@@ -163,6 +184,7 @@ module.exports = {
     readByStatus: readByStatus,
     save: save,
     update: update,
+    updateGrade: updateGrade,
     deleteID: deleteID,
     logicalDelete: logicalDelete
 };
