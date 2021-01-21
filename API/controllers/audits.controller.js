@@ -42,6 +42,18 @@ function readByStatus(req, res) {
     });
 }
 
+// readByOccurrence - seleciona uma auditoria com o occurrence dado
+function readByOccurrence(req, res) {
+    const occurrence_id = req.params.occurrence_id;
+    let mainQuery = 'SELECT DISTINCT * from Audits where occurrence_id = ?';
+    
+    connect.con.query(mainQuery, [occurrence_id], (err, rows) => {
+        if(err) throw err;
+        console.log('The audit you are looking for is: \n', rows)
+        res.send(rows);
+    });
+}
+
 //    save - Insere uma auditoria na tabela Audits
 //    Recebe os 5 parâmetros - audit_id // evaluation // description // audior_id // occurrence_id
 function save(req, res) {
@@ -111,11 +123,13 @@ function updateGrade(req, res) {
     //receber os dados do formuário que são enviados por post
     const audit_id = req.params.audit_id;
     const grade = req.body.grade;
+    const status = req.body.status;
     
     var query = "";
     
     var put = {
-        grade
+        grade,
+        status
     }
     
     query = connect.con.query('UPDATE Audits SET ? where audit_id = ?', [put, audit_id], function(err, rows, fields) {
@@ -182,6 +196,7 @@ module.exports = {
     read: read,
     readById: readById,
     readByStatus: readByStatus,
+    readByOccurrence: readByOccurrence,
     save: save,
     update: update,
     updateGrade: updateGrade,
