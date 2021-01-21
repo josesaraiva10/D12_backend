@@ -45,7 +45,7 @@ function readByStatus(req, res) {
 // readByOccurrence - seleciona uma auditoria com o occurrence dado
 function readByOccurrence(req, res) {
     const occurrence_id = req.params.occurrence_id;
-    let mainQuery = 'SELECT DISTINCT * from Audits where occurrence_id = ?';
+    let mainQuery = 'SELECT DISTINCT * from Audits where fk_Audits_occurrence_id = ?';
     
     connect.con.query(mainQuery, [occurrence_id], (err, rows) => {
         if(err) throw err;
