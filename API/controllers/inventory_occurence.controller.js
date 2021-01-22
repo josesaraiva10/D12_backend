@@ -1,6 +1,16 @@
 const app = require('../app.js');
 const connect = require('../config/connection.js');
 
+function readAll(req,res) {
+    
+    const occurence_id = req.sanitize('fk_IO_occurrence_id').escape();
+    connect.con.query('SELECT * from Inventory_of_the_Occurrence where fk_IO_occurrence_id=?', [occurence_id], (err, rows) => {
+        if(err) throw err;
+        console.log('The data from users table are: \n', rows);
+        res.send(rows);
+    });
+}
+
 function useInventoryInOccurence(req, res) {
     //receber os dados do formuário que são enviados por post
     const occurence_id = req.sanitize('occurence_id').escape();
@@ -54,5 +64,6 @@ function updateAvailability(materials) {
 }
 
 module.exports = {
-useInventoryInOccurence: useInventoryInOccurence
+useInventoryInOccurence: useInventoryInOccurence,
+readAll: readAll
 };
