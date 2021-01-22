@@ -9,6 +9,7 @@ router.get('/occurrence/:occurrence_id', audits.readByOccurrence);
 router.post("/", audits.save);
 router.put('/:audit_id', audits.update);
 router.put('/updateGrade/:audit_id', audits.updateGrade);
+router.put('/updateCoord/:audit_id', audits.updateCoord);
 router.delete('/:audit_id', audits.deleteID);
 router.put('/deleteL/:audit_id', audits.logicalDelete);
 

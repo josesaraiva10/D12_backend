@@ -81,7 +81,6 @@ const requests = require('./routes/requests.js');
 const users = require('./routes/users.js');
 const auditors = require('./routes/auditors.js');
 const audits = require('./routes/audits.js');
-const evaluations = require('./routes/evaluations.js')
 const inventory = require('./routes/inventory.js');
 const complainers = require('./routes/complainers.js');
 const collaborators = require('./routes/collaborators.js');
@@ -100,7 +99,6 @@ app.use('/users', users);
 app.use('/requests', requests);
 app.use('/auditors', auditors);
 app.use('/audits', audits);
-app.use('/evaluations', evaluations);
 app.use('/inventory', inventory);
 app.use('/collaborators', collaborators);
 app.use('/occurrences', occurrences);

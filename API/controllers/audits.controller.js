@@ -55,11 +55,10 @@ function readByOccurrence(req, res) {
 }
 
 //    save - Insere uma auditoria na tabela Audits
-//    Recebe os 5 parâmetros - audit_id // evaluation // description // audior_id // occurrence_id
+//    Recebe os 5 parâmetros - audit_id // description // audior_id // occurrence_id
 function save(req, res) {
 
     const audit_id = req.sanitize('audit_id').escape();
-    const evaluation = req.sanitize('evaluation').escape();
     const description = req.sanitize('description').escape();
     const auditor_id = req.sanitize('fk_Audits_auditor_id').escape();
     const occurrence_id = req.sanitize('fk_Audits_occurrence_id').escape();
@@ -67,7 +66,6 @@ function save(req, res) {
     var query = "";
     var post = {
         audit_id: audit_id,
-        evaluation: evaluation,
         description: description,
         fk_Audits_auditor_id: auditor_id,
         fk_Audits_occurrence_id: occurrence_id,
@@ -90,19 +88,17 @@ function save(req, res) {
     });
 }
 
-//updade - atualiza os dados de uma auditoria na tabela Audits através de um audit_id, de forma segura
+//update - atualiza os dados de uma auditoria na tabela Audits através de um audit_id, de forma segura
 
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
     const audit_id = req.params.audit_id;
-    const evaluation = req.body.evaluation;
     const description = req.body.description;
     const status = req.body.status;
     
     var query = "";
     
     var put = {
-        evaluation,
         description,
         status
     }
@@ -119,6 +115,8 @@ function update(req, res) {
     });
 }
 
+//updateGrade - atualiza a grade de uma auditoria na tabela Audits através de um audit_id, de forma segura
+
 function updateGrade(req, res) {
     //receber os dados do formuário que são enviados por post
     const audit_id = req.params.audit_id;
@@ -130,6 +128,33 @@ function updateGrade(req, res) {
     var put = {
         grade,
         status
+    }
+    
+    query = connect.con.query('UPDATE Audits SET ? where audit_id = ?', [put, audit_id], function(err, rows, fields) {
+        console.log(query.sql);
+        if (!err) {
+            res.status(200).send("Audit updated with success!");
+        }
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
+    });
+}
+
+//updateGrade - atualiza a grade de uma auditoria na tabela Audits através de um audit_id, de forma segura
+
+function updateCoord(req, res) {
+    //receber os dados do formuário que são enviados por post
+    const audit_id = req.params.audit_id;
+    const latitude = req.body.latitude;
+    const longitude = req.body.longitude;
+    
+    var query = "";
+    
+    var put = {
+        latitude,
+        longitude
     }
     
     query = connect.con.query('UPDATE Audits SET ? where audit_id = ?', [put, audit_id], function(err, rows, fields) {
@@ -200,6 +225,7 @@ module.exports = {
     save: save,
     update: update,
     updateGrade: updateGrade,
+    updateCoord: updateCoord,
     deleteID: deleteID,
     logicalDelete: logicalDelete
 };
