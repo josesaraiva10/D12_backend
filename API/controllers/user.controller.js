@@ -3,23 +3,23 @@ module.exports = function(sequelize, Sequelize) {
         id: {
             autoIncrement: true,
             primaryKey: true,
-            type: Sequelize.STRING
+            type: Sequelize.INTEGER
         },
-        firstname: {
+        name: {
             type: Sequelize.STRING,
             notEmpty: true
         },
-        lastname: {
+        apelido: {
             type: Sequelize.STRING,
             notEmpty: true
         },
         username: {
             type: Sequelize.TEXT
         },
-        about: {
+        sobre: {
             type: Sequelize.TEXT
         },
-        type: {
+        tipo: {
             type: Sequelize.TEXT
         },
         email: {
