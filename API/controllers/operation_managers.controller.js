@@ -89,7 +89,7 @@ function update(req, res) {
         
     }
     
-    query = connect.con.query ('UPDATE Operation_managers SET ? where manager_id = ?', [put, manager_id], function(err, rows,
+    query = connect.con.query ('UPDATE Operation_Managers SET ? where manager_id = ?', [put, manager_id], function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
