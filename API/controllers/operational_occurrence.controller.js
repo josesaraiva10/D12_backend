@@ -1,20 +1,31 @@
 const app = require('../app.js');
 const connect = require('../config/connection.js');
 
-function addCollaboratorToOccurence(req, res) {
+function readAll(req,res) {
+    
+    const occurence_id = req.sanitize('fk_OO_occurrence_id').escape();
+    connect.con.query('SELECT * from Operational_Occurrence where fk_OO_occurrence_id=?', [occurence_id], (err, rows) => {
+        if(err) throw err;
+        console.log('The data from operational_occurrence table are: \n', rows);
+        res.send(rows);
+    });
+}    
+
+
+function addOperationalToOccurence(req, res) {
     //receber os dados do formuário que são enviados por post
     const occurence_id = req.sanitize('occurence_id').escape();
-    const collaborator_ids = req.sanitize('collaborator_ids').escape();
-    var collaborators = collaborator_ids.split(",");
+    const operational_ids = req.sanitize('operational_ids').escape();
+    var operationals = operational_ids.split(",");
     
-    var query = "INSERT INTO Collaborators_at_Occurrences (fk_CO_collaborator_id, fk_CO_occurrence_id) VALUES ?";
+    var query = "INSERT INTO Operational_Occurrences (fk_OO_operational_id, fk_CO_occurrence_id) VALUES ?";
     var post = [];
     
-    collaborators.forEach(element => { 
+    operationals.forEach(element => { 
         post.push([occurence_id, element]);
     }); 
     
-    console.log("Adding collaborator to occurence:");
+    console.log("Adding operational to occurence:");
     
     query = connect.con.query(query, [post], function(err, rows, fields) {
         console.log(query.sql);
@@ -36,5 +47,6 @@ function addCollaboratorToOccurence(req, res) {
 }
 
 module.exports = {
-addCollaboratorToOccurence: addCollaboratorToOccurence
+readAll: readAll,
+addOperationalToOccurence: addOperationalToOccurence
 };

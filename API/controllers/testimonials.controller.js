@@ -21,13 +21,16 @@ function readById(req, res) {
 
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
-
+    
     const name = req.sanitize('name').escape();
     const cc_number = req.sanitize('cc_number').escape();
     const email= req.sanitize('email').escape();
     const description = req.sanitize('description').escape();
     const fk_Test_occurrence_id = req.sanitize('fk_Test_occurrence_id').escape();
-    
+    const phone_number = req.sanitize('phone_number').escape();
+    const job = req.sanitize('job').escape();
+    const city = req.sanitize('city').escape();
+
     var query = "";
 
     var post = {
@@ -35,7 +38,10 @@ function save(req, res) {
         cc_number: cc_number,
         email: email,
         description: description,
-        fk_Test_occurrence_id
+        fk_Test_occurrence_id,
+        phone_number,
+        job,
+        city,
         
     };
 

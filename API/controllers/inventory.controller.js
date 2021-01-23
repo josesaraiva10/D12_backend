@@ -67,6 +67,7 @@ function save(req, res) {
     const material_type = req.sanitize('material_type').escape();
     const availability = req.sanitize('availability').escape();
     
+    
     var query = "";
     var post = {
         material_type: material_type,
