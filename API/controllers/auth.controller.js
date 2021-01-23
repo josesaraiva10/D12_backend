@@ -11,7 +11,7 @@ exports.signin = function(req, res) {
     res.status(jsonMessages.user.invalid.status).send(jsonMessages.user.invalid);
 };
 exports.signinSuccess = function(req, res) {
-    res.status(jsonMessages.user.signinSucces.status).send(jsonMessages.user.signinSucces);
+    res.status(jsonMessages.user.signinSuccess.status).send(jsonMessages.user.signinSuccess);
 };
 exports.logout = function(req, res, err) {
     req.session.destroy(function(err) {
