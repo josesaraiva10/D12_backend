@@ -28,6 +28,7 @@ function save(req, res) {
     const description = req.sanitize('description').escape();
     const fk_Test_occurrence_id = req.sanitize('fk_Test_occurrence_id').escape();
     const phone_number = req.sanitize('phone_number').escape();
+    const notes = req.sanitize('notes').escape();
     const job = req.sanitize('job').escape();
     const city = req.sanitize('city').escape();
 
@@ -42,7 +43,7 @@ function save(req, res) {
         phone_number,
         job,
         city,
-        
+        notes
     };
 
     query = connect.con.query('INSERT INTO Testimonials SET ?', post, function(err, rows, fields) {

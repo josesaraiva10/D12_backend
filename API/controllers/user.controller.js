@@ -5,21 +5,21 @@ module.exports = function(sequelize, Sequelize) {
             primaryKey: true,
             type: Sequelize.INTEGER
         },
-        name: {
+        firstname: {
             type: Sequelize.STRING,
             notEmpty: true
         },
-        apelido: {
+        lastname: {
             type: Sequelize.STRING,
             notEmpty: true
         },
         username: {
             type: Sequelize.TEXT
         },
-        sobre: {
+        about: {
             type: Sequelize.TEXT
         },
-        tipo: {
+        type: {
             type: Sequelize.TEXT
         },
         email: {

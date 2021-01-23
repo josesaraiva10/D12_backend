@@ -9,7 +9,7 @@ module.exports = function(sequelize, Sequelize) {
 		password: { type: Sequelize.STRING, allowNull: false },
 		sobre: { type: Sequelize.TEXT },
 		last_login: { type: Sequelize.DATE },
-		status: { type: Sequelize.ENUM('on', 'off'), defaultValue: 'on'}
+		status: { type: Sequelize.ENUM('on', 'off'), defaultValue: 'on' }
 	});
 	return User;
 }
