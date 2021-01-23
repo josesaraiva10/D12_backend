@@ -28,7 +28,7 @@ module.exports = function(passport, user) {
       var generateHash = function(password) {
         return bCrypt.hashSync(password, bCrypt.genSaltSync(8), null);
       };
-      User.findOne({ where: { username: email } }).then(function(user) {
+      User.findOne({ where: { email: email } }).then(function(user) {
         if (user) {
           return done(null, false, jsonMessages.user.duplicate);
         }
