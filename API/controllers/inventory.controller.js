@@ -5,6 +5,16 @@ function read(req,res) {
     connect.con.query('SELECT * from Inventory', (err, rows) => {
         if(err) throw err;
         console.log('The data from inventory table are: \n', rows);
+        
+        rows.forEach(row => { 
+            if(row.availability == 1) {
+                row.availability = "disponível";
+            }
+            else {
+                row.availability = "indisponível";
+            }
+        }); 
+        
         res.send(rows);
     });
 }
@@ -98,6 +108,16 @@ function readByOccurrenceId(req,res) {
     connect.con.query(mainQuery, [material_id], (err, rows) => {
         if(err) throw err;
         console.log('The inventory of the occurrence with the id is: \n', rows);
+        
+        rows.forEach(row => { 
+            if(row.availability == 1) {
+                row.availability = "disponível";
+            }
+            else {
+                row.availability = "indisponível";
+            }
+        }); 
+        
         res.send(rows);
     });
 }

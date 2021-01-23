@@ -4,5 +4,6 @@ const inventoryOccurence = require('../controllers/inventory_occurence.controlle
 
 router.post('/setInventory', inventoryOccurence.useInventoryInOccurence);
 router.get('/:fk_IO_occurrence_id',inventoryOccurence.readAll);
+router.get('/:fk_IO_occurrence_id/materials',inventoryOccurence.readMatOcc);
 
 module.exports = router;

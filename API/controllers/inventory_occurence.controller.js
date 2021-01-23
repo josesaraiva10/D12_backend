@@ -11,6 +11,15 @@ function readAll(req,res) {
     });
 }
 
+function readMatOcc(req,res) {
+    const occurence_id = req.sanitize('fk_IO_occurrence_id').escape();
+    connect.con.query('SELECT Inventory.* from Inventory_of_the_Occurrence, Inventory where Inventory_of_the_Occurrence.fk_IO_occurrence_id=? and Inventory_of_the_Occurrence.fk_IO_material_id=Inventory.material_id', [occurence_id], (err, rows) => {
+        if(err) throw err;
+        console.log('The data from users table are: \n', rows);
+        res.send(rows);
+    });
+}
+
 function useInventoryInOccurence(req, res) {
     //receber os dados do formuário que são enviados por post
     const occurence_id = req.sanitize('occurence_id').escape();
@@ -65,5 +74,6 @@ function updateAvailability(materials) {
 
 module.exports = {
 useInventoryInOccurence: useInventoryInOccurence,
-readAll: readAll
+readAll: readAll,
+readMatOcc: readMatOcc
 };
