@@ -12,7 +12,7 @@ function read(req,res) {
 
 //lê o conteúdo do gestor de operações por um id
 function readById(req,res) {
-    let manager_id = req.params.id;
+    let manager_id = req.params.manager_id;
     let mainQuery = 'SELECT * from Operation_Managers where manager_id = ?';
     connect.con.query(mainQuery, [manager_id], (err, rows) => {
         if(err) throw err;
