@@ -34,6 +34,17 @@ function readById(req, res) {
     });
 }
 
+// dá auditor_id a partir de email
+function readByEmail(req,res) {
+    const email = req.params.email;
+    let mainQuery = 'SELECT * from Auditors where email = ?';
+    connect.con.query(mainQuery, [email], (err, rows) => {
+        if(err) throw err;
+        console.log('The auditor with the the email is: \n', rows);
+        res.send(rows);
+    });
+}
+
 /*  
     save - insere um auditor na tabela Auditors 
     Recebe os 6 parâmetros - auditor_id // name // birth_date // cc_auditor // phone_number // address
@@ -157,6 +168,7 @@ function logicalDelete (req, res) {
 module.exports = {
     read: read,
     readById: readById,
+    readByEmail: readByEmail,
     save: save,
     update: update,
     deleteID: deleteID,
