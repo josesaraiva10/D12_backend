@@ -21,7 +21,16 @@ function readById(req,res) {
     });
 }
 
-
+// dá user_id a partir de email
+function readByEmail(req,res) {
+    const email = req.params.email;
+    let mainQuery = 'SELECT * from users where email = ?';
+    connect.con.query(mainQuery, [email], (err, rows) => {
+        if(err) throw err;
+        console.log('The user with the the email is: \n', rows);
+        res.send(rows);
+    });
+}
 
 //guarda os valores existentes
 function save(req, res) {
@@ -173,6 +182,7 @@ function deleteID(req, res) {
 module.exports = {
         read: read,
         readById: readById,
+        readByEmail: readByEmail,
         save: save,
         update: update,
         logicalDelete: logicalDelete,
