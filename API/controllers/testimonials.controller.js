@@ -11,7 +11,7 @@ function read(req, res) {
 
 function readById(req, res) {
     let testimonials_id = req.params.id;
-    let mainQuery = 'SELECT * from Testimonials where testimonials_id = ?';
+    let mainQuery = 'SELECT * from Testimonials where testimonial_id = ?';
     connect.con.query(mainQuery, [testimonials_id], (err, rows) => {
         if (err) throw err;
         console.log('The testimonial with the the id is: \n', rows)
@@ -20,8 +20,8 @@ function readById(req, res) {
 }
 
 function readTestOcc(req,res) {
-    const occurence_id = req.sanitize('fk_Test_occurrence_id').escape();
-    connect.con.query('SELECT testimonial_id, name, cc_number from Testimonials where fk_Test_occurrence_id=?', [occurence_id], (err, rows) => {
+    let occurrence_id = req.params.occurrence_id;
+    connect.con.query('SELECT testimonial_id, name, cc_number from Testimonials where fk_Test_occurrence_id=?', [occurrence_id], (err, rows) => {
         if(err) throw err;
         console.log('The data from users table are: \n', rows);
         res.send(rows);

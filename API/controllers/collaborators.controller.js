@@ -30,7 +30,7 @@ function save(req, res) {
     const nif = req.sanitize('nif').escape();
     const phone_number = req.sanitize('phone_number').escape();
     const address = req.sanitize('address').escape();
-    
+    const fk_Collaborators_user_id = req.sanitize('fk_Collaborators_user_id').escape();
     
     var query = "";
     var post = {
@@ -40,6 +40,7 @@ function save(req, res) {
         nif: nif,
         phone_number: phone_number,
         address: address,
+        fk_Collaborators_user_id: fk_Collaborators_user_id
     };
     query = connect.con.query('INSERT INTO Collaborators SET ?', post, function(err, rows, fields) {
         console.log(query.sql);

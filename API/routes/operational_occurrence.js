@@ -8,5 +8,4 @@ router.get('/getOperationalsAllActiveOccurrences', operationalOccurrence.readOpe
 router.get('/countOperationalsAllOccurrences', operationalOccurrence.countOperationalsAllOccurrences);
 router.post('/addOperational', operationalOccurrence.addOperationalToOccurence);
 
-
 module.exports = router;
