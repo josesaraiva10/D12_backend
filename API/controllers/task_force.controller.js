@@ -21,9 +21,18 @@ function readById(req, res) {
     });
 }
 
+/*function readByOccID(req, res) {
+    let occurrence_id = req.params.occurrence_id;
+    let mainQuery = 'select TF_operational_id, from (select fk_Occ_team_id       from Occurrences       where occurrence_id=?) as B       inner join Operational_Team as A       on B.fk_Occ_team_id=A.OT_team_id';
+    connect.con.query(mainQuery, [occurrence_id], (err, rows) => {
+        if (err) throw err;
+        console.log('The Task Force with the the id is: \n', rows)
+        res.send(rows);
+    });
+}*/
 function readByOccID(req, res) {
     let occurrence_id = req.params.occurrence_id;
-    let mainQuery = 'select TF_operational_id from (select fk_Occ_team_id       from Occurrences       where occurrence_id=?) as B       inner join Operational_Team as A       on B.fk_Occ_team_id=A.OT_team_id';
+    let mainQuery = 'select operational_id,name,professional_certificate from Occurrences,Operational_Team, Task_Force where Occurrences.occurrence_id = ? and Occurrences.fk_Occ_team_id = Operational_Team.OT_team_id and Operational_Team.TF_operational_id = Task_Force.operational_id';
     connect.con.query(mainQuery, [occurrence_id], (err, rows) => {
         if (err) throw err;
         console.log('The Task Force with the the id is: \n', rows)

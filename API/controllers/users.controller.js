@@ -88,8 +88,6 @@ function update(req, res) {
    const sobre= req.body.sobre;
    const status = req.body.status;
    const updatedAt = req.body.updatedAt;
-    
-    
 
     var query = "";
     
