@@ -19,6 +19,15 @@ function readById(req, res) {
     });
 }
 
+function readTestOcc(req,res) {
+    const occurence_id = req.sanitize('fk_Test_occurrence_id').escape();
+    connect.con.query('SELECT testimonial_id, name, cc_number from Testimonials where fk_Test_occurrence_id=?', [occurence_id], (err, rows) => {
+        if(err) throw err;
+        console.log('The data from users table are: \n', rows);
+        res.send(rows);
+    });
+}
+
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
     
@@ -68,5 +77,6 @@ function save(req, res) {
 module.exports = {
 read: read,
 readById: readById,
-save: save
+save: save,
+readTestOcc: readTestOcc
 };

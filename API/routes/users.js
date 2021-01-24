@@ -6,7 +6,7 @@ router.get('/', users.read);
 router.get('/:id', users.readById);
 router.get('/email/:email', users.readByEmail);
 router.post("/", users.save);
-router.put('/:id', users.update);
+router.put('/update', users.update);
 router.put('/user/:user_id', users.logicalDelete);
 router.delete('/:id', users.deleteID);
 

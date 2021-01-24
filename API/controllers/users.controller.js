@@ -86,17 +86,12 @@ function save(req, res) {
 
 
 function update(req, res) {
-    //receber os dados do formuário que são enviados por post
-   const id = req.params.id;
-   const nome= req.body.nome;
-   const apelido= req.body.apelido;
-   const username= req.body.username;
-   const tipo= req.body.tipo;
-   const email= req.body.email;
-   const password= req.body.password;
-   const sobre= req.body.sobre;
-   const status = req.body.status;
-   const updatedAt = req.body.updatedAt;
+    const id = req.sanitize('id').escape();
+    const nome = req.sanitize('nome').escape();
+    const apelido = req.sanitize('apelido').escape();
+    const username = req.sanitize('username').escape();
+    const tipo = req.sanitize('tipo').escape();
+    const email = req.sanitize('email').escape();
 
     var query = "";
     
@@ -105,14 +100,10 @@ function update(req, res) {
         apelido,
         username,
         tipo,
-        email,
-        password,
-        sobre,
-        status,
-        updatedAt
+        email
     }
     
-    query = connect.con.query('UPDATE users SET  where id = ?',[put,id], function(err, rows,
+    query = connect.con.query('UPDATE users SET ? where id = ?',[put,id], function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {

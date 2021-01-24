@@ -4,7 +4,7 @@ const connect = require('../config/connection.js');
 function readOperationalsByOccurrenceID(req,res) {
     
     const occurence_id = req.sanitize('occurrence_id').escape();
-    connect.con.query('SELECT * from Task_Force INNER JOIN Operational_Occurrence ON Operational_Occurrence.fk_OO_operational_id = Task_Force.operational_id INNER JOIN Occurrences ON Occurrences.occurrence_id = Operational_Occurrence.fk_OO_occurrence_id where fk_OO_occurrence_id = ?;', [occurence_id], (err, rows) => {
+    connect.con.query('SELECT Task_Force.* from Task_Force INNER JOIN Operational_Occurrence ON Operational_Occurrence.fk_OO_operational_id = Task_Force.operational_id INNER JOIN Occurrences ON Occurrences.occurrence_id = Operational_Occurrence.fk_OO_occurrence_id where fk_OO_occurrence_id = ?;', [occurence_id], (err, rows) => {
         if(err) throw err;
         console.log('The data from operational_occurrence table are: \n', rows);
         res.send(rows);
