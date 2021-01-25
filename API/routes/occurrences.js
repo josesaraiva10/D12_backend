@@ -9,4 +9,5 @@ router.put('/occurrence/:occurrence_id', occurrences.logicalDelete);
 router.put('/:occurrence_id', occurrences.update);
 router.delete('/occurrence_id', occurrences.deleteID);
 router.put('/start_date/:occurrence_id',occurrences.updateOccurrenceArrival);
+router.put('/end_date/:occurrence_id',occurrences.updateOccurrenceEnddate);
 module.exports = router;

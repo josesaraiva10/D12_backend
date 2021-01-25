@@ -13,7 +13,7 @@ function read(req,res) {
 // lê informação de um user pelo seu id
 function readById(req,res) {
     let userID = req.params.id;
-    let mainQuery = 'SELECT * from users where id = ?';
+    let mainQuery = 'SELECT users.*, task_force.* from users,task_force where users.id = ? and users.email=task_force.email';
     connect.con.query(mainQuery, [userID], (err, rows) => {
         if(err) throw err;
         console.log('The user with the the id is: \n', rows);
