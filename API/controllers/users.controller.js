@@ -120,8 +120,8 @@ function update(req, res) {
 }
 
 function updatePassword(req, res) {
-    const id = req.sanitize('id').escape();
-    const password = req.sanitize('password').escape();
+    const id = req.params.id;
+    const password = req.body.password;
 
     var query = "";
     
