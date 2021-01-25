@@ -44,6 +44,7 @@ function save(req, res) {
     const password = req.sanitize('password').escape();
     const sobre = req.sanitize('sobre').escape();
     const last_login = req.sanitize('last_login').escape();
+    const data_nascimento = req.sanitize('data_nascimento').escape();
     const status = req.sanitize('status').escape();
     const createdAt = req.sanitize('createdAt').escape();
     const updatedAt = req.sanitize('updatedAt').escape();
@@ -58,6 +59,7 @@ function save(req, res) {
         email: email,
         password: password,
         sobre: sobre,
+        data_nascimento: data_nascimento,
         last_login: last_login,
         status: status,
         createdAt: createdAt,

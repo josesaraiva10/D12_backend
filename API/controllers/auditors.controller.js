@@ -94,7 +94,7 @@ function update(req, res) {
     //receber os dados do formuário que são enviados por post
     const auditor_id = req.params.auditor_id;
     const name = req.body.name;
-    const birth_date = req.body.birth_date;
+    //const birth_date = req.body.birth_date;
     const cc_auditor = req.body.cc_auditor;
     const phone_number = req.body.phone_number;
     const address = req.body.address;
@@ -103,7 +103,7 @@ function update(req, res) {
     
     var put = {
         name,
-        birth_date,
+        //birth_date,
         cc_auditor,
         phone_number,
         address

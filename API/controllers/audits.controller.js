@@ -42,7 +42,7 @@ function readByStatus(req, res) {
     });
 }
 
-/*function readByStatusAuditor(req, res) {
+function readByStatusAuditor(req, res) {
     const status = req.params.status;
     const auditor_id = req.params.fk_Audits_auditor_id;
     let mainQuery = 'SELECT DISTINCT * from Audits where status = ? and fk_Audits_auditor_id = ?';
@@ -52,7 +52,7 @@ function readByStatus(req, res) {
         console.log('The audit you are looking for is: \n', rows)
         res.send(rows);
     });
-}*/
+}
 
 // readByOccurrence - seleciona uma auditoria com o occurrence dado
 function readByOccurrence(req, res) {
@@ -234,7 +234,7 @@ module.exports = {
     readById: readById,
     readByStatus: readByStatus,
     readByOccurrence: readByOccurrence,
-    /*readByStatusAuditor: readByStatusAuditor,*/
+    readByStatusAuditor: readByStatusAuditor,
     save: save,
     update: update,
     updateGrade: updateGrade,
