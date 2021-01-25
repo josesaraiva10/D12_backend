@@ -119,6 +119,26 @@ function update(req, res) {
     });
 }
 
+function updatePassword(req, res) {
+    const id = req.sanitize('id').escape();
+    const password = req.sanitize('password').escape();
+
+    var query = "";
+    
+    query = connect.con.query('UPDATE users SET ? where id = ?',[password,id], function(err, rows,
+        fields) {
+        console.log(query.sql);
+        if (!err) {
+            console.log("Number of records updated: " + rows.affectedRows);
+            res.status(200).send({ "msg": "update with success" });
+        }
+        else {
+            res.status(400).send({ "msg": err.code });
+            console.log('Error while performing Query.', err);
+        }
+    });
+}
+
 
 
 function logicalDelete (req, res) {
