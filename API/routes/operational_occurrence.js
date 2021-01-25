@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const operationalOccurrence = require('../controllers/operational_occurrence.controller.js');
 
+router.get('/', operationalOccurrence.readAll);
 router.get('/getOperationalsInOccurrence', operationalOccurrence.readOperationalsByOccurrenceID);
 router.get('/getOperationalsAllOccurrences', operationalOccurrence.readOperationalsAllOccurrences);
 router.get('/getOperationalsAllActiveOccurrences', operationalOccurrence.readOperationalsAllActiveOccurrences);

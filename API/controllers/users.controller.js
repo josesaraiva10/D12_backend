@@ -122,10 +122,14 @@ function update(req, res) {
 function updatePassword(req, res) {
     const id = req.sanitize('id').escape();
     const password = req.sanitize('password').escape();
+    
+    let put = {
+        password
+    }
 
     var query = "";
     
-    query = connect.con.query('UPDATE users SET ? where id = ?',[password,id], function(err, rows,
+    query = connect.con.query('UPDATE users SET password = ? where id = ?',[put,id], function(err, rows,
         fields) {
         console.log(query.sql);
         if (!err) {
