@@ -119,31 +119,6 @@ function update(req, res) {
     });
 }
 
-function updatePassword(req, res) {
-    const id = req.params.id;
-    const password = req.body.password;
-
-    var query = "";
-    
-    var put = {
-        password
-    }
-    
-    query = connect.con.query('UPDATE users SET ? where id = ?',[put,id], function(err, rows,
-        fields) {
-        console.log(query.sql);
-        if (!err) {
-            console.log("Number of records updated: " + rows.affectedRows);
-            res.status(200).send({ "msg": "update with success" });
-        }
-        else {
-            res.status(400).send({ "msg": err.code });
-            console.log('Error while performing Query.', err);
-        }
-    });
-}
-
-
 
 
 function logicalDelete (req, res) {
