@@ -178,6 +178,5 @@ module.exports = {
         save: save,
         update: update,
         logicalDelete: logicalDelete,
-        deleteID: deleteID,
-        updatePassword: updatePassword
+        deleteID: deleteID
     };
