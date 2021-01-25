@@ -93,16 +93,20 @@ function save(req, res) {
 function update(req, res) {
     //receber os dados do formuário que são enviados por post
     const auditor_id = req.params.auditor_id;
+    const name = req.body.name;
+    const birth_date = req.body.birth_date;
+    const cc_auditor = req.body.cc_auditor;
     const phone_number = req.body.phone_number;
     const address = req.body.address;
-    const email = req.body.email;
-    
+
     var query = "";
     
     var put = {
+        name,
+        birth_date,
+        cc_auditor,
         phone_number,
-        address,
-        email
+        address
     }
 
     query = connect.con.query('UPDATE Auditors SET ? where auditor_id = ?', [put, auditor_id], function(err, rows, fields) {
