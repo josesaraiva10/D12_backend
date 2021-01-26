@@ -26,21 +26,15 @@ function readById(req,res) {
 function save(req, res) {
     //receber os dados do formuário que são enviados por post
     const birth_date = req.sanitize('birth_date').escape();
-    const rating = req.sanitize('rating').escape();
     const phone_number = req.sanitize('phone_number').escape();
     const email = req.sanitize('email').escape();
-    const distance_from_scene = req.sanitize('distance_from_scene').escape();
-    const availability = req.sanitize('availability').escape();
     const fk_OM_user_id = req.sanitize('fk_OM_user_id').escape();
     
     var query = "";
     var post = {
         birth_date: birth_date,
-        rating: rating,
         phone_number: phone_number,
         email: email,
-        distance_from_scene: distance_from_scene,
-        availability: availability,
         fk_OM_user_id: fk_OM_user_id
     };
     query = connect.con.query('INSERT INTO Operation_Managers SET ?', post, function(err, rows, fields) {
