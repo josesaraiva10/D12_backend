@@ -29,10 +29,10 @@ function save(req, res) {
     const phone_number = req.sanitize('phone_number').escape();
     const email = req.sanitize('email').escape();
     const fk_OM_user_id = req.sanitize('fk_OM_user_id').escape();
-    
+
     var query = "";
     var post = {
-        birth_date: birth_date,
+        birth_date: date,
         phone_number: phone_number,
         email: email,
         fk_OM_user_id: fk_OM_user_id

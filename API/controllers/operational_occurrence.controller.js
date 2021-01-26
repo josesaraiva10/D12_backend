@@ -55,9 +55,9 @@ function countOperationalsAllOccurrences(req,res) {
     });
 }
 
-function top5OccurrencesWithMostOperationals(req,res) {
+function topOccurrencesWithMostOperationals(req,res) {
     
-    connect.con.query('SELECT COUNT(occurrence_id) as num_operationals, Occurrences.* FROM Occurrences INNER JOIN Operational_Occurrence ON Operational_Occurrence.fk_OO_occurrence_id = Occurrences.occurrence_id group by occurrence_id order by num_operationals DESC LIMIT 5;', (err, rows) => {
+    connect.con.query('SELECT COUNT(occurrence_id) as num_operationals, Occurrences.occurrence_id as occurrence_id FROM Occurrences INNER JOIN Operational_Occurrence ON Operational_Occurrence.fk_OO_occurrence_id = Occurrences.occurrence_id group by occurrence_id order by num_operationals DESC LIMIT 1;', (err, rows) => {
         if(err) throw err;
         console.log('The data from operational_occurrence table are: \n', rows);
         res.send(rows);
@@ -113,7 +113,7 @@ readOperationalsByOccurrenceID: readOperationalsByOccurrenceID,
 readOperationalsAllOccurrences: readOperationalsAllOccurrences,
 readOperationalsAllActiveOccurrences: readOperationalsAllActiveOccurrences,
 readOperationalsAllEndedOccurrences: readOperationalsAllEndedOccurrences,
-top5OccurrencesWithMostOperationals: top5OccurrencesWithMostOperationals,
+top5OccurrencesWithMostOperationals: topOccurrencesWithMostOperationals,
 top10OccurrencesWithMostOperationals: top10OccurrencesWithMostOperationals,
 countOperationalsAllOccurrences: countOperationalsAllOccurrences,
 addOperationalToOccurence: addOperationalToOccurence
