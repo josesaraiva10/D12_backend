@@ -2,8 +2,7 @@ const app = require('../app.js');
 const connect = require('../config/connection.js');
 
 function readAll(req, res) {
-    const occurence_id = req.sanitize('occurrence_id').escape();
-    connect.con.query('SELECT * from Operational_Occurrence where fk_OO_occurrence_id = ?;', [occurence_id], (err, rows) => {
+    connect.con.query('SELECT * from Operational_Occurrence;', (err, rows) => {
         if(err) throw err;
         console.log('The data from operational_occurrence table are: \n', rows);
         res.send(rows);
