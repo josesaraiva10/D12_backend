@@ -20,14 +20,6 @@ function readById(req,res) {
     });
 }
 
-function topOccurrencesWithMostCollaborators(req,res) {
-    
-    connect.con.query('SELECT COUNT(occurrence_id) AS num_collaborators, Occurrences.occurrence_id AS occurrence_id FROM Occurrences INNER JOIN Collaborators_at_Occurrences ON Collaborators_at_Occurrences.fk_CO_occurrence_id = Occurrences.occurrence_id GROUP BY occurrence_id ORDER BY num_collaborators DESC LIMIT 1;', (err, rows) => {
-        if(err) throw err;
-        console.log('The data from operational_occurrence table are: \n', rows);
-        res.send(rows);
-    });
-}
 
 //função de gravação que recebe os 7 parâmetros   collaborator_id // name // birth_date // gender // nif // phone_number // address
 function save(req, res) {
@@ -165,7 +157,6 @@ function deleteID(req, res) {
 
 module.exports = {
 read: read,
-topOccurrencesWithMostCollaborators: topOccurrencesWithMostCollaborators,
 readById: readById,
 save: save,
 update: update,
