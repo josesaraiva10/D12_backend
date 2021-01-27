@@ -11,6 +11,15 @@ function read(req, res) {
     });
 }
 
+function countByStatus(req, res) {
+    connect.con.query('select COUNT(status1) as conta, status1 from Occurrences group by status1;', (err, rows) => {
+        if (err) throw err;
+        console.log('The data from occurrences table are: \n', rows);
+        res.send(rows);
+    });
+    
+}
+
 //_________________________________________________________READ BY ID______________________________________________________________________
 
 function readById(req, res) {
@@ -22,6 +31,7 @@ function readById(req, res) {
         res.send(rows);
     });
 }
+
 
 //_________________________________________________________SAVE______________________________________________________________________
 
@@ -216,6 +226,7 @@ function updateOccurrenceEnddate(req, res) {
 }
 module.exports = {
     read: read,
+    countByStatus: countByStatus,
     readById: readById,
     save: save,
     update: update,
