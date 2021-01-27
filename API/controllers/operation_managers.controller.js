@@ -32,7 +32,7 @@ function save(req, res) {
 
     var query = "";
     var post = {
-        birth_date: date,
+        birth_date: birth_date,
         phone_number: phone_number,
         email: email,
         fk_OM_user_id: fk_OM_user_id
